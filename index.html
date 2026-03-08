@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>夢の軌跡を、ここに。</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #FF6B35;
+    --primary-light: #FF8C5A;
+    --primary-bg: #FFF4EF;
+    --accent: #2D6BE4;
+    --accent-light: #EEF3FD;
+    --green: #27AE60;
+    --green-bg: #EDFBF4;
+    --white: #FFFFFF;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --text: #1A1A2E;
+    --text2: #555577;
+    --text3: #9999AA;
+    --border: #EEEEF5;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 84px;
+  }
+
+  /* ========== HERO ========== */
+  .hero {
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 50%, #FFB347 100%);
+    padding: 52px 24px 44px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px; left: -30px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.07);
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.25);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 11px;
+    color: #fff;
+    letter-spacing: 0.05em;
+    margin-bottom: 20px;
+  }
+
+  .hero-eyebrow {
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    letter-spacing: 0.15em;
+    margin-bottom: 10px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.8;
+    margin-bottom: 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .btn-primary {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    color: var(--primary);
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 10px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-outline {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    background: transparent;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    text-decoration: none;
+    border: 1.5px solid rgba(255,255,255,0.6);
+    letter-spacing: 0.05em;
+  }
+
+  /* ========== STATS ========== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-item {
+    background: var(--white);
+    padding: 18px 8px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.05em;
+  }
+
+  /* ========== SECTION ========== */
+  .section {
+    padding: 28px 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--primary-bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  .section-link {
+    font-size: 12px;
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  /* ========== KINGEN ========== */
+  .kingen-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    margin: 0 -20px;
+    padding: 4px 20px 8px;
+    scrollbar-width: none;
+  }
+  .kingen-scroll::-webkit-scrollbar { display: none; }
+
+  .kingen-card {
+    flex-shrink: 0;
+    width: 200px;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 18px;
+    border: 1.5px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .kingen-mark {
+    font-size: 22px;
+    color: var(--primary);
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 8px;
+    font-family: Georgia, serif;
+  }
+
+  .kingen-quote {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 12px;
+  }
+
+  .kingen-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 3px 8px;
+    background: var(--primary-bg);
+    color: var(--primary);
+    border-radius: 6px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .kingen-author {
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* ========== CALENDAR ========== */
+  .cal-wrap {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  }
+
+  .cal-month {
+    font-size: 13px;
+    color: var(--text2);
+    font-weight: 600;
+    margin-bottom: 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .cal-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 3px;
+    margin-bottom: 14px;
+  }
+
+  .cal-day-label {
+    text-align: center;
+    font-size: 10px;
+    color: var(--text3);
+    padding: 4px 0;
+    font-weight: 600;
+  }
+
+  .cal-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    color: var(--text2);
+    border-radius: 8px;
+  }
+
+  .cal-day.has-event {
+    background: var(--primary-bg);
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  .cal-day.is-today {
+    background: var(--primary);
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .cal-day.is-milestone {
+    background: var(--accent-light);
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .cal-day.empty { opacity: 0; }
+
+  .cal-legend {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .legend-dot {
+    width: 8px; height: 8px;
+    border-radius: 3px;
+  }
+  .dot-event { background: var(--primary-bg); border: 1.5px solid var(--primary); }
+  .dot-today { background: var(--primary); }
+  .dot-mile { background: var(--accent-light); border: 1.5px solid var(--accent); }
+
+  /* ========== MEMBERS ========== */
+  .member-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .member-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+
+  .member-avatar {
+    width: 42px; height: 42px;
+    border-radius: 50%;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+  }
+
+  .member-avatar.active { border-color: var(--primary); background: var(--primary-bg); }
+  .member-avatar.milestone { border-color: var(--accent); background: var(--accent-light); }
+  .member-avatar.next { border-color: var(--green); background: var(--green-bg); }
+
+  .member-info { flex: 1; min-width: 0; }
+
+  .member-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .member-dream {
+    font-size: 11px;
+    color: var(--text3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .member-badge {
+    font-size: 10px;
+    padding: 4px 9px;
+    border-radius: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-active { background: var(--primary-bg); color: var(--primary); }
+  .badge-mile { background: var(--accent-light); color: var(--accent); }
+  .badge-next { background: var(--green-bg); color: var(--green); }
+
+  /* ========== CONCEPT ========== */
+  .concept {
+    margin: 0 20px;
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+    border-radius: 16px;
+    padding: 28px 24px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .concept::before {
+    content: '夢';
+    position: absolute;
+    right: -10px; bottom: -24px;
+    font-size: 110px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.08);
+  }
+
+  .concept-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 10px;
+  }
+
+  .concept-title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .concept-body {
+    font-size: 13px;
+    line-height: 1.9;
+    color: rgba(255,255,255,0.9);
+  }
+
+  /* ========== DIVIDER ========== */
+  .divider {
+    height: 6px;
+    background: var(--bg);
+  }
+
+  /* ========== CTA ========== */
+  .cta {
+    padding: 32px 20px;
+    text-align: center;
+  }
+
+  .cta-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .cta-sub {
+    font-size: 12px;
+    color: var(--text3);
+    margin-bottom: 22px;
+    line-height: 1.8;
+  }
+
+  .btn-cta {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    background: var(--primary);
+    color: #fff;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 12px;
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    box-shadow: 0 6px 20px rgba(255,107,53,0.35);
+  }
+
+  /* ========== BOTTOM NAV ========== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 8px 0 18px;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: 9px; letter-spacing: 0.03em; color: var(--text3); font-weight: 600; }
+  .nav-item.active .nav-label { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ サービス構築中</div>
+  <p class="hero-eyebrow">DREAM ARCHIVE</p>
+  <h1 class="hero-title">夢の軌跡を、<br>ここに残そう。</h1>
+  <p class="hero-desc">挑戦した時間は、消えない。<br>諦めた日も含めて、あなたの本物の記録。</p>
+  <div class="hero-btns">
+    <a href="https://docs.google.com/forms/d/1aVv1NRdbYKnbLiW2dkTLZzEBKwCO_7a4DnQOUguxZ2s/viewform" class="btn-primary">🌟 記録を始める（無料）</a>
+    <a class='btn-outline' href='https://gokuyou.netlify.app/gokuyou_kingen'>📖 先輩たちの言葉を読む</a>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-num">127</div>
+    <div class="stat-label">夢追い人</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">843</div>
+    <div class="stat-label">記録数</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">38</div>
+    <div class="stat-label">金言</div>
+  </div>
+</div>
+
+<!-- KINGEN -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">📜</span>
+      先輩たちの言葉
+    </span>
+    <a class='section-link' href='https://gokuyou.netlify.app/gokuyou_kingen'>すべて見る →</a>
+  </div>
+  <div class="kingen-scroll">
+    <div class="kingen-card">
+      <div class="kingen-mark">"</div>
+      <p class="kingen-quote">決断は間違いじゃない。ただ、続きがあるだけだ。</p>
+      <span class="kingen-tag">Entertainment｜芸能・お笑い</span>
+      <p class="kingen-author">サラリーマン10年目</p>
+    </div>
+    <div class="kingen-card">
+      <div class="kingen-mark">"</div>
+      <p class="kingen-quote">諦めた日の次の朝が一番きつかった。でも朝は来た。</p>
+      <span class="kingen-tag">Creative｜音楽・アート</span>
+      <p class="kingen-author">現在 営業職</p>
+    </div>
+    <div class="kingen-card">
+      <div class="kingen-mark">"</div>
+      <p class="kingen-quote">負けたんじゃない。別のゲームに移っただけだと今は思う。</p>
+      <span class="kingen-tag">Sports｜アスリート</span>
+      <p class="kingen-author">現在 コーチ</p>
+    </div>
+    <div class="kingen-card">
+      <div class="kingen-mark">"</div>
+      <p class="kingen-quote">夢を追った経験は、次の夢の地図になる。</p>
+      <span class="kingen-tag">Business｜起業・経営</span>
+      <p class="kingen-author">現在 起業家</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CALENDAR -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">📅</span>
+      みんなの活動カレンダー
+    </span>
+    <a href="#" class="section-link">全員を見る →</a>
+  </div>
+  <div class="cal-wrap">
+    <p class="cal-month">2026年 2月</p>
+    <div class="cal-grid">
+      <div class="cal-day-label">日</div><div class="cal-day-label">月</div><div class="cal-day-label">火</div>
+      <div class="cal-day-label">水</div><div class="cal-day-label">木</div><div class="cal-day-label">金</div><div class="cal-day-label">土</div>
+      <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+      <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
+      <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day has-event">3</div>
+      <div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day has-event">6</div>
+      <div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div>
+      <div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day has-event">12</div>
+      <div class="cal-day">13</div><div class="cal-day has-event">14</div><div class="cal-day">15</div>
+      <div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div>
+      <div class="cal-day has-event">19</div><div class="cal-day">20</div><div class="cal-day">21</div>
+      <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div>
+      <div class="cal-day is-today">25</div><div class="cal-day">26</div>
+      <div class="cal-day is-milestone">27</div><div class="cal-day">28</div>
+    </div>
+    <div class="cal-legend">
+      <div class="legend-item"><div class="legend-dot dot-event"></div>活動日</div>
+      <div class="legend-item"><div class="legend-dot dot-today"></div>今日</div>
+      <div class="legend-item"><div class="legend-dot dot-mile"></div>諦めた日</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- MEMBERS -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">👥</span>
+      夢追い人たち
+    </span>
+    <a href="#" class="section-link">全員を見る →</a>
+  </div>
+  <div class="member-list">
+    <div class="member-card">
+      <div class="member-avatar active">🎭</div>
+      <div class="member-info">
+        <div class="member-name">たけし</div>
+        <div class="member-dream">お笑い芸人を目指して8年目</div>
+      </div>
+      <span class="member-badge badge-active">挑戦中</span>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar milestone">🎸</div>
+      <div class="member-info">
+        <div class="member-name">まさき</div>
+        <div class="member-dream">バンドで武道館を夢見た5年間</div>
+      </div>
+      <span class="member-badge badge-mile">諦めた</span>
+    </div>
+    <div class="member-card">
+      <div class="member-avatar next">⚽</div>
+      <div class="member-info">
+        <div class="member-name">ゆうた</div>
+        <div class="member-dream">元Jリーガー → 指導者の道へ</div>
+      </div>
+      <span class="member-badge badge-next">探し中</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONCEPT -->
+<div class="concept">
+  <p class="concept-label">CONCEPT</p>
+  <h2 class="concept-title">諦めることは、<br>終わりじゃない。</h2>
+  <p class="concept-body">夢を追い続けた時間は、必ず次の力になる。挑戦した人の軌跡を記録し、その先の一歩を応援するサービスです。</p>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+  <h3 class="cta-title">あなたの軌跡を<br>ここに残しませんか</h3>
+  <p class="cta-sub">挑戦中でも、立ち止まっていても。<br>すべての夢に、居場所がある。</p>
+  <a href="https://docs.google.com/forms/d/1aVv1NRdbYKnbLiW2dkTLZzEBKwCO_7a4DnQOUguxZ2s/viewform" class="btn-cta">🌟 無料で記録を始める</a>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="#" class="nav-item active">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">ホーム</span>
+  </a>
+  <a href="#" class="nav-item">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">カレンダー</span>
+  </a>
+  <a href="#" class="nav-item">
+    <span class="nav-icon">📜</span>
+    <span class="nav-label">金言</span>
+  </a>
+  <a href="#" class="nav-item">
+    <span class="nav-icon">＋</span>
+    <span class="nav-label">記録する</span>
+  </a>
+</nav>
+
+</body>
+</html>

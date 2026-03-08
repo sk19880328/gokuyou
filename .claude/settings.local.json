@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -o index.html https://gokuyou.netlify.app/ && curl -o gokuyou_kingen.html https://gokuyou.netlify.app/gokuyou_kingen.html)",
+      "Bash(netlify --version 2>/dev/null || echo \"NOT_INSTALLED\")",
+      "Bash(npm install -g netlify-cli)",
+      "Bash(brew install netlify-cli 2>&1 | tail -5)",
+      "Bash(brew list netlify-cli 2>/dev/null && echo \"installed\" || echo \"not installed\")",
+      "Bash(netlify --version)",
+      "Bash(netlify deploy --prod --dir=. --site=gokuyou 2>&1)",
+      "Bash(netlify sites:list 2>&1)",
+      "Bash(netlify deploy --prod --dir=. --site=d882dd9f-7b0f-4cfc-870c-74fa0aab4353 2>&1)",
+      "Bash(git -C /Users/yamamotosouya/gokuyou init && git -C /Users/yamamotosouya/gokuyou add . && git -C /Users/yamamotosouya/gokuyou commit -m \"Initial commit\")"
+    ]
+  }
+}

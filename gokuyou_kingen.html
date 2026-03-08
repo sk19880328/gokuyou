@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>敗北者の金言 | 夢の軌跡を、ここに。</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #FF6B35;
+    --primary-light: #FF8C5A;
+    --primary-bg: #FFF4EF;
+    --accent: #2D6BE4;
+    --accent-light: #EEF3FD;
+    --green: #27AE60;
+    --green-bg: #EDFBF4;
+    --white: #FFFFFF;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --text: #1A1A2E;
+    --text2: #555577;
+    --text3: #9999AA;
+    --border: #EEEEF5;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 84px;
+  }
+
+  /* ========== HEADER ========== */
+  .page-header {
+    background: linear-gradient(135deg, #FF6B35 0%, #FFB347 100%);
+    padding: 48px 24px 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .page-header::before {
+    content: '';
+    position: absolute;
+    top: -50px; right: -50px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+  }
+
+  .header-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 20px;
+    text-decoration: none;
+  }
+
+  .header-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 8px;
+  }
+
+  .header-title {
+    font-size: 26px;
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .header-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.8;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ========== STATS ========== */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .stat-item {
+    background: var(--white);
+    padding: 16px 8px;
+    text-align: center;
+  }
+
+  .stat-num {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--primary);
+    line-height: 1;
+    margin-bottom: 3px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    color: var(--text3);
+    letter-spacing: 0.03em;
+  }
+
+  /* ========== FILTER ========== */
+  .filter-wrap {
+    padding: 16px 20px 0;
+  }
+
+  .filter-scroll {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .filter-scroll::-webkit-scrollbar { display: none; }
+
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    color: var(--text3);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .filter-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+  }
+
+  /* ========== FEATURED ========== */
+  .featured {
+    padding: 20px 20px 0;
+  }
+
+  .featured-card {
+    background: var(--white);
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  }
+
+  .featured-top {
+    background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4E 100%);
+    padding: 28px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .featured-top::before {
+    content: '"';
+    position: absolute;
+    right: 10px;
+    top: -10px;
+    font-size: 100px;
+    color: rgba(255,107,53,0.15);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+
+  .featured-label {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--primary);
+    background: rgba(255,107,53,0.15);
+    padding: 4px 10px;
+    border-radius: 6px;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+
+  .featured-quote {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .featured-author-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .featured-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,107,53,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border: 2px solid rgba(255,107,53,0.4);
+  }
+
+  .featured-author-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .featured-author-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  .featured-body {
+    padding: 22px 24px;
+  }
+
+  .featured-interview {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .qa-item {}
+
+  .qa-q {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+    letter-spacing: 0.05em;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .qa-q::before {
+    content: 'Q';
+    width: 18px; height: 18px;
+    background: var(--primary-bg);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 800;
+    flex-shrink: 0;
+  }
+
+  .qa-a {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.8;
+    padding-left: 24px;
+  }
+
+  .featured-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+  }
+
+  .tag {
+    font-size: 10px;
+    padding: 3px 8px;
+    background: var(--bg);
+    color: var(--text3);
+    border-radius: 6px;
+    font-weight: 600;
+  }
+
+  /* ========== CARD LIST ========== */
+  .section {
+    padding: 24px 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title-icon {
+    width: 26px; height: 26px;
+    background: var(--primary-bg);
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+  }
+
+  .kingen-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .kingen-card {
+    background: var(--white);
+    border-radius: 14px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  }
+
+  .kingen-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    gap: 12px;
+  }
+
+  .kingen-mark {
+    font-size: 28px;
+    color: var(--primary);
+    font-family: Georgia, serif;
+    line-height: 0.8;
+    flex-shrink: 0;
+  }
+
+  .kingen-career-badge {
+    font-size: 10px;
+    padding: 4px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .badge-entertainer { background: #FFF0E6; color: #E8650A; }
+  .badge-sports { background: #E8F4FD; color: #1A7DC4; }
+  .badge-music { background: #F0E8FD; color: #7B35C4; }
+  .badge-business { background: var(--green-bg); color: var(--green); }
+
+  .kingen-quote-text {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .kingen-mini-qa {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.7;
+    padding: 10px 12px;
+    background: var(--bg);
+    border-radius: 8px;
+    margin-bottom: 12px;
+  }
+
+  .kingen-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .kingen-author-info {}
+
+  .kingen-author-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .kingen-author-now {
+    font-size: 10px;
+    color: var(--text3);
+  }
+
+  .kingen-read-btn {
+    font-size: 11px;
+    color: var(--primary);
+    font-weight: 700;
+    text-decoration: none;
+    padding: 6px 12px;
+    background: var(--primary-bg);
+    border-radius: 8px;
+  }
+
+  /* ========== CTA ========== */
+  .cta {
+    margin: 0 20px 28px;
+    background: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+    border-radius: 16px;
+    padding: 26px 22px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cta::before {
+    content: '語';
+    position: absolute;
+    right: -10px; bottom: -20px;
+    font-size: 100px;
+    font-weight: 900;
+    color: rgba(255,255,255,0.07);
+  }
+
+  .cta-title {
+    font-size: 17px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .cta-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    margin-bottom: 18px;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .cta-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: #fff;
+    color: var(--primary);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    position: relative;
+  }
+
+  /* ========== BOTTOM NAV ========== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 8px 0 18px;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: 9px; color: var(--text3); font-weight: 600; }
+  .nav-item.active .nav-label { color: var(--primary); }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<section class="page-header">
+  <a href="#" class="header-back">← ホームへ戻る</a>
+  <p class="header-eyebrow">WORDS OF THE DEFEATED</p>
+  <h1 class="header-title">敗北者の金言</h1>
+  <p class="header-desc">夢を諦めた人だけが語れる、本物の言葉がある。<br>成功者じゃない、だからこそリアルな言葉。</p>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat-item">
+    <div class="stat-num">38</div>
+    <div class="stat-label">インタビュー数</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">12</div>
+    <div class="stat-label">ジャンル</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-num">4.8</div>
+    <div class="stat-label">平均評価</div>
+  </div>
+</div>
+
+<!-- FILTER -->
+<div class="filter-wrap">
+  <div class="filter-scroll">
+    <button class="filter-btn active">すべて</button>
+    <button class="filter-btn">Entertainment｜芸能・お笑い</button>
+    <button class="filter-btn">Creative｜音楽・アート</button>
+    <button class="filter-btn">Sports｜アスリート</button>
+    <button class="filter-btn">Study｜勉強・学習</button>
+    <button class="filter-btn">Business｜起業・経営</button>
+    <button class="filter-btn">Others｜その他</button>
+  </div>
+</div>
+
+<!-- FEATURED -->
+<div class="featured">
+  <div class="featured-card">
+    <div class="featured-top">
+      <span class="featured-label">✦ 創設者インタビュー</span>
+      <p class="featured-quote">「決断は間違いじゃない。ただ、続きがあるだけだ。」</p>
+      <div class="featured-author-row">
+        <div class="featured-avatar">🎭</div>
+        <div>
+          <p class="featured-author-name">カネ（仮名）</p>
+          <p class="featured-author-sub">Entertainment｜芸能・お笑い → サラリーマン10年目</p>
+        </div>
+      </div>
+    </div>
+    <div class="featured-body">
+      <div class="featured-interview">
+        <div class="qa-item">
+          <p class="qa-q">芸人を目指したきっかけは？</p>
+          <p class="qa-a">小4の担任の先生に「おもしろいから吉本行きなさい」と言われたことがずっと頭に残っていた。19歳でオーディションを受けて、そのまま東京に行った。</p>
+        </div>
+        <div class="qa-item">
+          <p class="qa-q">諦めた瞬間はどんな状況でしたか？</p>
+          <p class="qa-a">自分で決めたというより、相方が実家に帰ることになって、気づいたら終わっていた。仲良かった作家に「1年だけ社会人やって、また戻っておいで」と言われたまま10年が経った。</p>
+        </div>
+        <div class="qa-item">
+          <p class="qa-q">今の自分から当時の自分に一言送るなら？</p>
+          <p class="qa-a">「決断は間違いじゃない。」それだけ。</p>
+        </div>
+      </div>
+      <div class="featured-tags">
+        <span class="tag">#お笑い</span>
+        <span class="tag">#サラリーマン</span>
+        <span class="tag">#転換期</span>
+        <span class="tag">#10年後</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CARD LIST -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">📖</span>
+      敗北者の金言
+    </span>
+  </div>
+  <div class="kingen-list">
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-sports">Sports｜アスリート</span>
+      </div>
+      <p class="kingen-quote-text">負けたんじゃない。別のゲームに移っただけだと今は思う。</p>
+      <div class="kingen-mini-qa">怪我で引退を決めた日、悔しさより静けさがあった。あの感覚が今の自分の土台になっている。</div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">ゆうた（28歳）</p>
+          <p class="kingen-author-now">現在 ユースコーチ</p>
+        </div>
+        <a href="#" class="kingen-read-btn">続きを読む →</a>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-music">Creative｜音楽・アート</span>
+      </div>
+      <p class="kingen-quote-text">諦めた日の次の朝が、一番きつかった。でも朝は来た。</p>
+      <div class="kingen-mini-qa">解散した翌朝、いつもより早く目が覚めた。夢がなくなった朝ってやけに静かなんだよね。</div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">まさき（31歳）</p>
+          <p class="kingen-author-now">現在 営業職</p>
+        </div>
+        <a href="#" class="kingen-read-btn">続きを読む →</a>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-business">Business｜起業・経営</span>
+      </div>
+      <p class="kingen-quote-text">失敗は恥じゃない。やらなかったことの方が、ずっと恥ずかしい。</p>
+      <div class="kingen-mini-qa">会社を畳んだ時、周りの目が怖かった。でも今はあの経験を話すと、みんな目を輝かせて聞いてくれる。</div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">けんじ（35歳）</p>
+          <p class="kingen-author-now">現在 会社員</p>
+        </div>
+        <a href="#" class="kingen-read-btn">続きを読む →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta">
+  <h3 class="cta-title">あなたの言葉も、<br>誰かの力になる。</h3>
+  <p class="cta-sub">インタビューに参加しませんか？<br>あなたの経験が、次に挑戦する人の道しるべに。</p>
+  <a href="#" class="cta-btn">📝 インタビューに応募する</a>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="#" class="nav-item">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">ホーム</span>
+  </a>
+  <a href="#" class="nav-item">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">カレンダー</span>
+  </a>
+  <a href="#" class="nav-item active">
+    <span class="nav-icon">📜</span>
+    <span class="nav-label">金言</span>
+  </a>
+  <a href="#" class="nav-item">
+    <span class="nav-icon">＋</span>
+    <span class="nav-label">記録する</span>
+  </a>
+</nav>
+
+</body>
+</html>
