@@ -510,6 +510,63 @@
     box-shadow: 0 6px 20px rgba(255,107,53,0.35);
   }
 
+  /* ========== LATEST ARTICLE ========== */
+  .article-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--white);
+    border-radius: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+    text-decoration: none;
+  }
+
+  .article-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1A1A2E 0%, #2D2D4E 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .article-info { flex: 1; min-width: 0; }
+
+  .article-label {
+    font-size: 10px;
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+
+  .article-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
+  .article-desc {
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.6;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .article-arrow {
+    font-size: 16px;
+    color: var(--text3);
+    flex-shrink: 0;
+  }
+
   /* ========== BOTTOM NAV ========== */
   .bottom-nav {
     position: fixed;
@@ -684,6 +741,27 @@
       <span class="member-badge badge-next">探し中</span>
     </div>
   </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LATEST ARTICLE -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">📰</span>
+      最新記事
+    </span>
+  </div>
+  <a href="https://gokuyou.netlify.app/gokuyou_kingen" class="article-card">
+    <div class="article-icon">📜</div>
+    <div class="article-info">
+      <p class="article-label">WORDS OF THE DEFEATED</p>
+      <p class="article-title">敗北者の金言</p>
+      <p class="article-desc">夢を諦めた人だけが語れる、本物の言葉がある。</p>
+    </div>
+    <span class="article-arrow">›</span>
+  </a>
 </section>
 
 <!-- CONCEPT -->
