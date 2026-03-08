@@ -600,6 +600,28 @@
   .nav-label { font-size: 9px; letter-spacing: 0.03em; color: var(--text3); font-weight: 600; }
   .nav-item.active .nav-label { color: var(--primary); }
 
+  /* ========== SHARE BUTTONS ========== */
+  .share-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 10px;
+  }
+  .share-btn {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    border: none;
+    line-height: 1.4;
+    font-family: inherit;
+  }
+  .share-tw { background: #000; color: #fff; }
+  .share-line { background: #06C755; color: #fff; }
+
   /* ========== PC LAYOUT ========== */
   .pc-sidebar { display: none; }
   .main-content { width: 100%; }
@@ -768,24 +790,40 @@
       <p class="kingen-quote">決断は間違いじゃない。ただ、続きがあるだけだ。</p>
       <span class="kingen-tag">Entertainment｜芸能・お笑い</span>
       <p class="kingen-author">サラリーマン10年目</p>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('決断は間違いじゃない。ただ、続きがあるだけだ。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('決断は間違いじゃない。ただ、続きがあるだけだ。')">LINE</button>
+      </div>
     </div>
     <div class="kingen-card">
       <div class="kingen-mark">"</div>
       <p class="kingen-quote">諦めた日の次の朝が一番きつかった。でも朝は来た。</p>
       <span class="kingen-tag">Creative｜音楽・アート</span>
       <p class="kingen-author">現在 営業職</p>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('諦めた日の次の朝が一番きつかった。でも朝は来た。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('諦めた日の次の朝が一番きつかった。でも朝は来た。')">LINE</button>
+      </div>
     </div>
     <div class="kingen-card">
       <div class="kingen-mark">"</div>
       <p class="kingen-quote">負けたんじゃない。別のゲームに移っただけだと今は思う。</p>
       <span class="kingen-tag">Sports｜アスリート</span>
       <p class="kingen-author">現在 コーチ</p>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('負けたんじゃない。別のゲームに移っただけだと今は思う。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('負けたんじゃない。別のゲームに移っただけだと今は思う。')">LINE</button>
+      </div>
     </div>
     <div class="kingen-card">
       <div class="kingen-mark">"</div>
       <p class="kingen-quote">夢を追った経験は、次の夢の地図になる。</p>
       <span class="kingen-tag">Business｜起業・経営</span>
       <p class="kingen-author">現在 起業家</p>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('夢を追った経験は、次の夢の地図になる。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('夢を追った経験は、次の夢の地図になる。')">LINE</button>
+      </div>
     </div>
   </div>
 </section>
@@ -922,6 +960,18 @@
 </nav>
 
 </div><!-- /main-content -->
+
+<script>
+function shareTwitter(quote) {
+  var text = encodeURIComponent('「' + quote + '」 #御供養');
+  var url = encodeURIComponent('https://gokuyou.netlify.app/gokuyou_kingen');
+  window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'noopener');
+}
+function shareLine(quote) {
+  var text = encodeURIComponent('「' + quote + '」\nhttps://gokuyou.netlify.app/gokuyou_kingen');
+  window.open('https://line.me/R/msg/text/?' + text, '_blank', 'noopener');
+}
+</script>
 
 </body>
 </html>

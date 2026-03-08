@@ -514,6 +514,28 @@
   .nav-label { font-size: 9px; color: var(--text3); font-weight: 600; }
   .nav-item.active .nav-label { color: var(--primary); }
 
+  /* ========== SHARE BUTTONS ========== */
+  .share-btns {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+  }
+  .share-btn {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    cursor: pointer;
+    border: none;
+    line-height: 1.4;
+    font-family: inherit;
+  }
+  .share-tw { background: #000; color: #fff; }
+  .share-line { background: #06C755; color: #fff; }
+
   /* ========== PC LAYOUT ========== */
   .pc-sidebar { display: none; }
   .main-content { width: 100%; }
@@ -699,6 +721,10 @@
         <span class="tag">#転換期</span>
         <span class="tag">#10年後</span>
       </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('決断は間違いじゃない。ただ、続きがあるだけだ。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('決断は間違いじゃない。ただ、続きがあるだけだ。')">LINE</button>
+      </div>
     </div>
   </div>
 </div>
@@ -727,6 +753,10 @@
         </div>
         <a href="#" class="kingen-read-btn">続きを読む →</a>
       </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('負けたんじゃない。別のゲームに移っただけだと今は思う。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('負けたんじゃない。別のゲームに移っただけだと今は思う。')">LINE</button>
+      </div>
     </div>
 
     <div class="kingen-card">
@@ -743,6 +773,10 @@
         </div>
         <a href="#" class="kingen-read-btn">続きを読む →</a>
       </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('諦めた日の次の朝が、一番きつかった。でも朝は来た。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('諦めた日の次の朝が、一番きつかった。でも朝は来た。')">LINE</button>
+      </div>
     </div>
 
     <div class="kingen-card">
@@ -758,6 +792,10 @@
           <p class="kingen-author-now">現在 会社員</p>
         </div>
         <a href="#" class="kingen-read-btn">続きを読む →</a>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('失敗は恥じゃない。やらなかったことの方が、ずっと恥ずかしい。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('失敗は恥じゃない。やらなかったことの方が、ずっと恥ずかしい。')">LINE</button>
       </div>
     </div>
 
@@ -792,6 +830,18 @@
 </nav>
 
 </div><!-- /main-content -->
+
+<script>
+function shareTwitter(quote) {
+  var text = encodeURIComponent('「' + quote + '」 #御供養');
+  var url = encodeURIComponent('https://gokuyou.netlify.app/gokuyou_kingen');
+  window.open('https://twitter.com/intent/tweet?text=' + text + '&url=' + url, '_blank', 'noopener');
+}
+function shareLine(quote) {
+  var text = encodeURIComponent('「' + quote + '」\nhttps://gokuyou.netlify.app/gokuyou_kingen');
+  window.open('https://line.me/R/msg/text/?' + text, '_blank', 'noopener');
+}
+</script>
 
 </body>
 </html>
