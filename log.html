@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>私の軌跡 | 夢の軌跡を、ここに。</title>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8990S70XB8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8990S70XB8');
+</script>
+
+<!-- OGP -->
+<meta name="description" content="あなたが夢に向けて歩んだ日々の記録。">
+<meta property="og:title" content="私の軌跡 | 夢の軌跡を、ここに。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gokuyou-official.github.io/gokuyou/log">
+<meta property="og:site_name" content="夢の軌跡を、ここに。">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@gokuyou_bot">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #FF6B35;
+    --primary-light: #FF8C5A;
+    --primary-bg: #FFF4EF;
+    --accent: #2D6BE4;
+    --accent-light: #EEF3FD;
+    --green: #27AE60;
+    --green-bg: #EDFBF4;
+    --white: #FFFFFF;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --charcoal: #3d3d3d;
+    --text: #3d3d3d;
+    --text2: #666677;
+    --text3: #9999AA;
+    --border: rgba(61,61,61,0.12);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding-bottom: 84px;
+  }
+
+  /* ========== HEADER ========== */
+  .page-header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .page-header-back {
+    font-size: 22px;
+    text-decoration: none;
+    color: var(--text);
+    line-height: 1;
+  }
+
+  .page-header-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ========== SECTION ========== */
+  .section { padding: 24px 20px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-title-icon {
+    width: 28px;
+    height: 28px;
+    background: var(--primary-bg);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  /* ========== LOG LIST ========== */
+  .log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .log-item {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+  }
+
+  .log-date {
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 4px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .log-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  .log-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text3);
+    font-size: 13px;
+    line-height: 2;
+  }
+
+  /* ========== DIVIDER ========== */
+  .section-divider {
+    margin: 0 20px;
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ========== MEMORIALS ========== */
+  .memorial-item {
+    background: var(--white);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .memorial-icon {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .memorial-body { flex: 1; min-width: 0; }
+
+  .memorial-date {
+    font-size: 11px;
+    color: var(--text3);
+    margin-bottom: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .memorial-title {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.5;
+    font-weight: 500;
+  }
+
+  .memorial-empty {
+    text-align: center;
+    padding: 24px 20px;
+    color: var(--text3);
+    font-size: 12px;
+    line-height: 2;
+  }
+
+  /* ========== 夢を手放すボタン ========== */
+  .release-btn-wrap {
+    padding: 32px 20px 16px;
+    text-align: center;
+  }
+
+  .release-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text3);
+    font-size: 13px;
+    padding: 10px 24px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.05em;
+  }
+
+  .release-btn:hover { color: var(--text2); border-color: var(--text3); }
+
+  /* ========== BOTTOM NAV ========== */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    background: rgba(255,255,255,0.97);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 8px 0 18px;
+    z-index: 100;
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  }
+
+  .nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 6px;
+    text-decoration: none;
+  }
+
+  .nav-icon { font-size: 20px; line-height: 1; }
+  .nav-label { font-size: 9px; letter-spacing: 0.03em; color: var(--text3); font-weight: 600; }
+  .nav-item.active .nav-label { color: var(--primary); }
+
+  /* ========== 供養モーダル ========== */
+  .gokuyou-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(6, 4, 8, 0.98);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s;
+  }
+
+  .gokuyou-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .gokuyou-inner { width: 100%; max-width: 360px; }
+
+  .gokuyou-step { display: none; }
+  .gokuyou-step.active { display: block; }
+
+  .gokuyou-line {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', 'Georgia', serif;
+    color: rgba(255,255,255,0.82);
+    font-size: 15px;
+    line-height: 2.4;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.6s, transform 0.6s;
+    font-weight: 400;
+  }
+
+  .gokuyou-line.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .gokuyou-input-label {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    color: rgba(255,255,255,0.45);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    margin-bottom: 16px;
+  }
+
+  .gokuyou-textarea {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 14px;
+    color: rgba(255,255,255,0.88);
+    font-size: 15px;
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    resize: none;
+    height: 110px;
+    outline: none;
+    line-height: 1.9;
+  }
+
+  .gokuyou-btn-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .gokuyou-btn {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.08em;
+  }
+
+  .gokuyou-btn-cancel {
+    background: rgba(255,255,255,0.07);
+    color: rgba(255,255,255,0.4);
+  }
+
+  .gokuyou-btn-proceed {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.8);
+  }
+
+  .gokuyou-confirm-note {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    color: rgba(255,255,255,0.45);
+    font-size: 12px;
+    line-height: 2.1;
+    margin-bottom: 10px;
+    letter-spacing: 0.05em;
+  }
+
+  .gokuyou-confirm-title {
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    color: rgba(255,255,255,0.88);
+    font-size: 18px;
+    line-height: 1.9;
+    margin-bottom: 20px;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+  }
+
+  .gokuyou-btn-execute {
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.65);
+    font-family: 'Hiragino Mincho ProN', 'Yu Mincho', serif;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  .gokuyou-ritual-lines {
+    min-height: 180px;
+  }
+
+  /* ========== PC LAYOUT ========== */
+  .pc-sidebar { display: none; }
+  .main-content { width: 100%; }
+
+  @media (min-width: 769px) {
+    body {
+      max-width: none;
+      width: 100%;
+      margin: 0;
+      display: flex;
+      align-items: flex-start;
+      padding-bottom: 0;
+    }
+
+    .pc-sidebar {
+      display: flex;
+      flex-direction: column;
+      width: 300px;
+      min-width: 300px;
+      background: var(--charcoal);
+      min-height: 100vh;
+      position: sticky;
+      top: 0;
+      padding: 56px 32px;
+      gap: 48px;
+    }
+
+    .sidebar-logo {
+      font-size: 18px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    .sidebar-logo-sub {
+      font-size: 11px;
+      color: rgba(255,255,255,0.45);
+      margin-top: 6px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 14px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+    }
+
+    .sidebar-link:hover { background: rgba(255,255,255,0.08); color: #fff; }
+    .sidebar-link.active { background: rgba(255,107,53,0.18); color: var(--primary); }
+
+    .sidebar-link-cta {
+      margin-top: 12px;
+      background: var(--primary);
+      color: #fff;
+      justify-content: center;
+      padding: 13px 14px;
+      border-radius: 10px;
+    }
+
+    .sidebar-link-cta:hover { background: var(--primary-light); color: #fff; }
+
+    .main-content { flex: 1; min-width: 0; }
+    .bottom-nav { display: none; }
+    .section { padding: 36px 48px; }
+    .section-divider { margin: 0 48px; }
+    .release-btn-wrap { padding: 32px 48px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- PC SIDEBAR -->
+<aside class="pc-sidebar">
+  <div class="sidebar-logo">
+    夢の軌跡を、<br>ここに。
+    <div class="sidebar-logo-sub">DREAM ARCHIVE</div>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="./" class="sidebar-link">🏠 ホーム</a>
+    <a href="./gokuyou_kingen" class="sidebar-link">📜 敗北者の金言</a>
+    <a href="./log" class="sidebar-link active">📖 私の軌跡</a>
+    <a href="https://docs.google.com/forms/d/1aVv1NRdbYKnbLiW2dkTLZzEBKwCO_7a4DnQOUguxZ2s/viewform" class="sidebar-link sidebar-link-cta">🌟 記録を始める</a>
+  </nav>
+</aside>
+
+<div class="main-content">
+
+<!-- HEADER -->
+<header class="page-header">
+  <a href="./" class="page-header-back">←</a>
+  <h1 class="page-header-title">私の軌跡</h1>
+</header>
+
+<!-- 軌跡ログ -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">✏️</span>
+      今日の一歩
+    </span>
+  </div>
+  <div class="log-list" id="log-list">
+    <div class="log-empty" id="log-empty">
+      まだ記録がありません。<br>トップページから今日の一歩を書いてみましょう。
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- 供養された夢 -->
+<section class="section">
+  <div class="section-header">
+    <span class="section-title">
+      <span class="section-title-icon">🕯️</span>
+      供養した夢
+    </span>
+  </div>
+  <div class="log-list" id="memorial-list">
+    <div class="memorial-empty" id="memorial-empty">
+      まだ供養された夢はありません。
+    </div>
+  </div>
+</section>
+
+<!-- 夢を手放すボタン -->
+<div class="release-btn-wrap">
+  <button class="release-btn" onclick="openGokuyou()">— 夢を手放す —</button>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav">
+  <a href="./" class="nav-item">
+    <span class="nav-icon">🏠</span>
+    <span class="nav-label">ホーム</span>
+  </a>
+  <a href="./log" class="nav-item active">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">軌跡</span>
+  </a>
+  <a href="./gokuyou_kingen" class="nav-item">
+    <span class="nav-icon">📜</span>
+    <span class="nav-label">金言</span>
+  </a>
+  <a href="https://docs.google.com/forms/d/1aVv1NRdbYKnbLiW2dkTLZzEBKwCO_7a4DnQOUguxZ2s/viewform" class="nav-item">
+    <span class="nav-icon">＋</span>
+    <span class="nav-label">記録する</span>
+  </a>
+</nav>
+
+</div><!-- /main-content -->
+
+<!-- ====== 供養モーダル ====== -->
+<div class="gokuyou-overlay" id="gokuyou-overlay">
+  <div class="gokuyou-inner">
+
+    <!-- STEP 1: 入力 -->
+    <div class="gokuyou-step active" id="gokuyou-step1">
+      <p class="gokuyou-input-label">何を手放しますか</p>
+      <textarea class="gokuyou-textarea" id="gokuyou-input" placeholder="夢の名前、または一言で"></textarea>
+      <div class="gokuyou-btn-row">
+        <button class="gokuyou-btn gokuyou-btn-cancel" onclick="closeGokuyou()">やめる</button>
+        <button class="gokuyou-btn gokuyou-btn-proceed" onclick="gokuyouStep2()">次へ</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: 確認 -->
+    <div class="gokuyou-step" id="gokuyou-step2">
+      <p class="gokuyou-confirm-note">この記録は残り続けます。</p>
+      <p class="gokuyou-confirm-title" id="gokuyou-confirm-title"></p>
+      <p class="gokuyou-confirm-note">本当に手放しますか？</p>
+      <div class="gokuyou-btn-row">
+        <button class="gokuyou-btn gokuyou-btn-cancel" onclick="gokuyouBack()">戻る</button>
+        <button class="gokuyou-btn-execute" onclick="gokuyouExecute()">供養する</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: 儀式 -->
+    <div class="gokuyou-step" id="gokuyou-step3">
+      <div class="gokuyou-ritual-lines" id="gokuyou-ritual-lines"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ===== localStorage =====
+function getLogs() {
+  return JSON.parse(localStorage.getItem('gokuyou_logs') || '[]');
+}
+function getMemorials() {
+  return JSON.parse(localStorage.getItem('gokuyou_memorials') || '[]');
+}
+function saveMemorials(m) {
+  localStorage.setItem('gokuyou_memorials', JSON.stringify(m));
+}
+
+// ===== 軌跡一覧レンダリング =====
+function renderLogs() {
+  var logs = getLogs().slice().reverse();
+  var list = document.getElementById('log-list');
+  var empty = document.getElementById('log-empty');
+  if (!logs.length) { empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  logs.forEach(function(l) {
+    var item = document.createElement('div');
+    item.className = 'log-item';
+    item.innerHTML =
+      '<div class="log-date">' + l.date + '</div>' +
+      '<div class="log-text">' + escHtml(l.text) + '</div>';
+    list.appendChild(item);
+  });
+}
+
+// ===== 供養一覧レンダリング =====
+function renderMemorials() {
+  var memorials = getMemorials().slice().reverse();
+  var list = document.getElementById('memorial-list');
+  var empty = document.getElementById('memorial-empty');
+  if (!memorials.length) { empty.style.display = ''; return; }
+  empty.style.display = 'none';
+  memorials.forEach(function(m) {
+    var item = document.createElement('div');
+    item.className = 'memorial-item';
+    item.innerHTML =
+      '<div class="memorial-icon">🕯️</div>' +
+      '<div class="memorial-body">' +
+        '<div class="memorial-date">' + m.date + '</div>' +
+        '<div class="memorial-title">「' + escHtml(m.title) + '」を供養</div>' +
+      '</div>';
+    list.appendChild(item);
+  });
+}
+
+function escHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ===== 供養モーダル =====
+function openGokuyou() {
+  document.getElementById('gokuyou-input').value = '';
+  showStep('gokuyou-step1');
+  document.getElementById('gokuyou-overlay').classList.add('open');
+}
+
+function closeGokuyou() {
+  document.getElementById('gokuyou-overlay').classList.remove('open');
+}
+
+function showStep(id) {
+  ['gokuyou-step1','gokuyou-step2','gokuyou-step3'].forEach(function(s) {
+    document.getElementById(s).classList.remove('active');
+  });
+  document.getElementById(id).classList.add('active');
+}
+
+function gokuyouStep2() {
+  var text = document.getElementById('gokuyou-input').value.trim();
+  if (!text) return;
+  document.getElementById('gokuyou-confirm-title').textContent = '「' + text + '」';
+  showStep('gokuyou-step2');
+}
+
+function gokuyouBack() {
+  showStep('gokuyou-step1');
+}
+
+function gokuyouExecute() {
+  var title = document.getElementById('gokuyou-input').value.trim();
+  var today = new Date().toISOString().slice(0, 10);
+  var memorials = getMemorials();
+  memorials.push({ date: today, title: title });
+  saveMemorials(memorials);
+
+  showStep('gokuyou-step3');
+
+  var lines = [
+    '夢を追いかけた日々は',
+    'ここに刻まれました。',
+    '',
+    '「' + title + '」',
+    '',
+    'ここに残ります。'
+  ];
+
+  var container = document.getElementById('gokuyou-ritual-lines');
+  container.innerHTML = '';
+  lines.forEach(function(text) {
+    var el = document.createElement('p');
+    el.className = 'gokuyou-line';
+    el.textContent = text || '\u00A0';
+    container.appendChild(el);
+  });
+
+  var delay = 0;
+  Array.from(container.querySelectorAll('.gokuyou-line')).forEach(function(el) {
+    setTimeout(function() { el.classList.add('visible'); }, delay);
+    delay += 500;
+  });
+
+  setTimeout(function() {
+    closeGokuyou();
+    // memorialsを再レンダリング
+    document.getElementById('memorial-list').innerHTML =
+      '<div class="memorial-empty" id="memorial-empty" style="display:none"></div>';
+    renderMemorials();
+  }, delay + 1800);
+}
+
+// ===== 初期化 =====
+document.addEventListener('DOMContentLoaded', function() {
+  renderLogs();
+  renderMemorials();
+});
+</script>
+
+</body>
+</html>
