@@ -943,32 +943,25 @@
   <div class="section-header">
     <span class="section-title">
       <span class="section-title-icon">📅</span>
-      みんなの活動カレンダー
+      私の活動カレンダー
     </span>
-    <a href="#" class="section-link">全員を見る →</a>
+    <a href="./log" class="section-link">軌跡を見る →</a>
   </div>
   <div class="cal-wrap">
-    <p class="cal-month">2026年 2月</p>
-    <div class="cal-grid">
-      <div class="cal-day-label">日</div><div class="cal-day-label">月</div><div class="cal-day-label">火</div>
-      <div class="cal-day-label">水</div><div class="cal-day-label">木</div><div class="cal-day-label">金</div><div class="cal-day-label">土</div>
-      <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
-      <div class="cal-day empty"></div><div class="cal-day empty"></div><div class="cal-day empty"></div>
-      <div class="cal-day">1</div><div class="cal-day">2</div><div class="cal-day has-event">3</div>
-      <div class="cal-day">4</div><div class="cal-day">5</div><div class="cal-day has-event">6</div>
-      <div class="cal-day">7</div><div class="cal-day">8</div><div class="cal-day">9</div>
-      <div class="cal-day">10</div><div class="cal-day">11</div><div class="cal-day has-event">12</div>
-      <div class="cal-day">13</div><div class="cal-day has-event">14</div><div class="cal-day">15</div>
-      <div class="cal-day">16</div><div class="cal-day">17</div><div class="cal-day">18</div>
-      <div class="cal-day has-event">19</div><div class="cal-day">20</div><div class="cal-day">21</div>
-      <div class="cal-day">22</div><div class="cal-day">23</div><div class="cal-day">24</div>
-      <div class="cal-day is-today">25</div><div class="cal-day">26</div>
-      <div class="cal-day is-milestone">27</div><div class="cal-day">28</div>
+    <p class="cal-month" id="cal-month"></p>
+    <div class="cal-grid" id="cal-grid">
+      <div class="cal-day-label">日</div>
+      <div class="cal-day-label">月</div>
+      <div class="cal-day-label">火</div>
+      <div class="cal-day-label">水</div>
+      <div class="cal-day-label">木</div>
+      <div class="cal-day-label">金</div>
+      <div class="cal-day-label">土</div>
     </div>
     <div class="cal-legend">
-      <div class="legend-item"><div class="legend-dot dot-event"></div>活動日</div>
+      <div class="legend-item"><div class="legend-dot dot-event"></div>記録あり</div>
       <div class="legend-item"><div class="legend-dot dot-today"></div>今日</div>
-      <div class="legend-item"><div class="legend-dot dot-mile"></div>諦めた日</div>
+      <div class="legend-item"><div class="legend-dot dot-mile"></div>供養した日</div>
     </div>
   </div>
 </section>
@@ -1080,6 +1073,49 @@ function shareLine(quote) {
   window.open('https://line.me/R/msg/text/?' + text, '_blank', 'noopener');
 }
 
+// ===== カレンダー =====
+function renderCalendar() {
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth();
+  var today = now.getDate();
+  var todayStr = now.toISOString().slice(0, 10);
+
+  document.getElementById('cal-month').textContent = year + '年 ' + (month + 1) + '月';
+
+  var logs = getLogs();
+  var memorials = JSON.parse(localStorage.getItem('gokuyou_memorials') || '[]');
+  var logDates = new Set(logs.map(function(l) { return l.date; }));
+  var memorialDates = new Set(memorials.map(function(m) { return m.date; }));
+
+  var grid = document.getElementById('cal-grid');
+  // ラベル行を残して日付セルをクリア
+  var labels = Array.from(grid.querySelectorAll('.cal-day-label'));
+  grid.innerHTML = '';
+  labels.forEach(function(l) { grid.appendChild(l); });
+
+  var firstDay = new Date(year, month, 1).getDay();
+  var daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  for (var i = 0; i < firstDay; i++) {
+    var empty = document.createElement('div');
+    empty.className = 'cal-day empty';
+    grid.appendChild(empty);
+  }
+
+  for (var d = 1; d <= daysInMonth; d++) {
+    var dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+    var el = document.createElement('div');
+    var cls = 'cal-day';
+    if (d === today) cls += ' is-today';
+    else if (memorialDates.has(dateStr)) cls += ' is-milestone';
+    else if (logDates.has(dateStr)) cls += ' has-event';
+    el.className = cls;
+    el.textContent = d;
+    grid.appendChild(el);
+  }
+}
+
 // ===== 今日の一歩 =====
 function getLogs() {
   return JSON.parse(localStorage.getItem('gokuyou_logs') || '[]');
@@ -1119,6 +1155,7 @@ function saveStep() {
 }
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('streak-num').textContent = getStreak();
+  renderCalendar();
 });
 </script>
 
