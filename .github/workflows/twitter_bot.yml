@@ -1,17 +1,20 @@
 name: Twitter Bot
+
 on:
   schedule:
-    - cron: '0 0 * * *'
-    - cron: '0 12 * * *'
+    - cron: '0 0 * * *'   # JST 朝9時（UTC 00:00）
+    - cron: '0 12 * * *'  # JST 夜21時（UTC 12:00）
   workflow_dispatch:
     inputs:
       slot:
-        description: '投稿スロット（0=朝, 1=夜）'
+        description: '投稿スロット（0=朝/短文A, 1=夜/長文B）'
         required: false
         default: '0'
+
 jobs:
-  post:
+  post_morning:
     runs-on: ubuntu-latest
+    if: github.event.schedule == '0 0 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.slot == '0')
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -19,16 +22,25 @@ jobs:
           python-version: '3.12'
       - name: Install dependencies
         run: pip install requests requests-oauthlib
-      - name: Post morning tweet
-        if: github.event.schedule == '0 0 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.slot == '0')
+      - name: Post morning tweet (format A / 短文)
         env:
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
           TWITTER_ACCESS_TOKEN: ${{ secrets.TWITTER_ACCESS_TOKEN }}
           TWITTER_ACCESS_TOKEN_SECRET: ${{ secrets.TWITTER_ACCESS_TOKEN_SECRET }}
         run: python scripts/post_tweet.py 0
-      - name: Post evening tweet
-        if: github.event.schedule == '0 12 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.slot == '1')
+
+  post_evening:
+    runs-on: ubuntu-latest
+    if: github.event.schedule == '0 12 * * *' || (github.event_name == 'workflow_dispatch' && github.event.inputs.slot == '1')
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: pip install requests requests-oauthlib
+      - name: Post evening tweet (format B / 長文)
         env:
           TWITTER_API_KEY: ${{ secrets.TWITTER_API_KEY }}
           TWITTER_API_SECRET: ${{ secrets.TWITTER_API_SECRET }}
