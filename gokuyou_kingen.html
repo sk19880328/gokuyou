@@ -349,11 +349,17 @@
   }
 
   .kingen-card {
-    background: var(--white);
-    border-radius: 14px;
-    padding: 22px 20px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
     border: 1px solid var(--border);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .kingen-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
   }
 
   .kingen-card-top {
@@ -387,33 +393,50 @@
   .badge-business { background: var(--green-bg); color: var(--green); }
 
   .kingen-yume-message {
-    font-size: 12px;
-    color: var(--text2);
-    font-style: italic;
-    margin-top: 12px;
+    font-size: 13px;
+    color: #c0622a;
+    font-style: normal;
+    margin-bottom: 16px;
     padding: 10px 14px;
-    background: var(--primary-bg);
-    border-left: 3px solid var(--primary);
+    background: #fff8f4;
+    border-left: 3px solid #e8824a;
     border-radius: 0 8px 8px 0;
     line-height: 1.7;
   }
 
-  .kingen-quote-text {
-    font-size: 16px;
+  .kingen-yume-label {
+    font-size: 10px;
     font-weight: 700;
-    color: var(--text);
-    line-height: 1.8;
-    margin-bottom: 12px;
+    color: #e8824a;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .kingen-context {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+
+  .kingen-quote-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
   }
 
   .kingen-mini-qa {
     font-size: 13px;
-    color: var(--text3);
-    line-height: 1.9;
-    padding: 12px 14px;
-    background: var(--bg);
-    border-radius: 8px;
-    margin-bottom: 14px;
+    color: #555;
+    line-height: 1.8;
+    padding: 16px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    margin-bottom: 16px;
   }
 
   .kingen-footer {
@@ -796,9 +819,13 @@
         <div class="kingen-mark">"</div>
         <span class="kingen-career-badge badge-music">Creative｜音楽・アート</span>
       </div>
-      <p class="kingen-quote-text">諦めたんじゃない。手を離しただけだ。</p>
+      <p class="kingen-context">プロのバンドマンを目指し、解散するまで本気だった男の話。</p>
+      <p class="kingen-quote-text">「諦めたんじゃない。手を離しただけだ。」</p>
       <div class="kingen-mini-qa">解散した夜、帰り道の電車で窓に映った自分は、思っていたより疲れていた。「まだやれる」「まだ終わってない」と言い続けていたのは、夢のためじゃなく、夢を失う自分が怖かっただけだった。スタジオの鍵を返した瞬間、胸の奥で何かが静かに崩れた。でも、その崩れた場所に風が通った。翌朝、やけに早く目が覚めた。悔しさより、自由の方が先に来た。</div>
-      <p class="kingen-yume-message">夢を追うあなたへ：思いっきりやっても思いっきりやらなくても朝は来る、だから思いっきりやれ！</p>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        思いっきりやっても思いっきりやらなくても朝は来る、だから思いっきりやれ！
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
           <p class="kingen-author-name">まさき（31歳）</p>
@@ -816,9 +843,13 @@
         <div class="kingen-mark">"</div>
         <span class="kingen-career-badge badge-entertainer">Entertainment｜芸能・お笑い</span>
       </div>
-      <p class="kingen-quote-text">普通に生きることを、ようやく許せた。</p>
+      <p class="kingen-context">M-1に10年挑み続け、一度も二回戦に届かなかった冬の話。</p>
+      <p class="kingen-quote-text">「普通に生きることを、ようやく許せた。」</p>
       <div class="kingen-mini-qa">十年目の敗退の日、劇場の裏口で相方と別れたあと、手に残ったのは汗で湿ったネタ帳だけでした。ページの端が何度も折れていて、そこに書いた言葉が、急に遠くなった気がしました。夢を追っている限り、どこかで特別な存在だと思い込んでいました。でも帰り道、コンビニで買った肉まんを食べながら、「明日からどうやって生きていくんだろう」と初めて現実が迫ってきました。芸人を辞めて働き始めたとき、生活は地味で、でも確かでした。普通に生きることを、ようやく許せた。そう気づいたのは、ずいぶん後になってからのことでした。</div>
-      <p class="kingen-yume-message">夢を追うあなたへ：社会は厳しいですが、あたたかいです。いつでも人生はやり直せます。だから大丈夫。</p>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        社会は厳しいですが、あたたかいです。いつでも人生はやり直せます。だから大丈夫。
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
           <p class="kingen-author-name">男性（43歳）</p>
@@ -836,9 +867,13 @@
         <div class="kingen-mark">"</div>
         <span class="kingen-career-badge badge-sports">Sports｜アスリート</span>
       </div>
-      <p class="kingen-quote-text">悔しさより、静けさの方が先に来た。</p>
+      <p class="kingen-context">社会人チームの最終選考で、連絡が来なかった夜の話。</p>
+      <p class="kingen-quote-text">「悔しさより、静けさの方が先に来た。」</p>
       <div class="kingen-mini-qa">最後の選考の日、連絡が来なかった夜は、思っていたより静かでした。悔しさで眠れないと思っていたのに、胸の奥は不思議と落ち着いていて、長く張りつめていた糸が切れたような感覚だけが残りました。「必ずサッカーで食べていける」と信じていた自分を、なかなか諦められなかった。それでも、当時からそばにいてくれた彼女と結婚し、子どもが生まれて、守るものが増えていくうちに、あの夜の静けさの意味が少しだけ分かってきました。夢を手放したことに悔いがないと言えば嘘になりますが、いまの生活を選んだ自分にも、嘘はつけないんです。</div>
-      <p class="kingen-yume-message">夢を追うあなたへ：夢を諦めても別の夢を作れる。夢があることが重要なのではなく、夢を諦めないその過程が重要だと思います。</p>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        夢を諦めても別の夢を作れる。夢があることが重要なのではなく、夢を諦めないその過程が重要だと思います。
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
           <p class="kingen-author-name">男性（32歳）</p>
@@ -883,19 +918,19 @@
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <a href="#" class="nav-item">
+  <a href="./" class="nav-item">
     <span class="nav-icon">🏠</span>
     <span class="nav-label">ホーム</span>
   </a>
-  <a href="#" class="nav-item">
-    <span class="nav-icon">📅</span>
-    <span class="nav-label">カレンダー</span>
+  <a href="./log" class="nav-item">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">軌跡</span>
   </a>
-  <a href="#" class="nav-item active">
+  <a href="./gokuyou_kingen" class="nav-item active">
     <span class="nav-icon">📜</span>
     <span class="nav-label">金言</span>
   </a>
-  <a href="#" class="nav-item">
+  <a href="https://docs.google.com/forms/d/1aVv1NRdbYKnbLiW2dkTLZzEBKwCO_7a4DnQOUguxZ2s/viewform" class="nav-item">
     <span class="nav-icon">＋</span>
     <span class="nav-label">記録する</span>
   </a>
