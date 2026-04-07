@@ -1136,6 +1136,40 @@ function shareLine(quote) {
   var text = encodeURIComponent('「' + quote + '」\n./gokuyou_kingen');
   window.open('https://line.me/R/msg/text/?' + text, '_blank', 'noopener');
 }
+
+// Genre filter
+(function() {
+  var buttons = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.kingen-card');
+  var featured = document.querySelector('.featured');
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      buttons.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+
+      var genre = btn.textContent.trim();
+      var isAll = genre === 'すべて';
+
+      if (featured) {
+        featured.style.display = isAll ? '' : 'none';
+      }
+
+      cards.forEach(function(card) {
+        if (isAll) {
+          card.style.display = '';
+          return;
+        }
+        var badge = card.querySelector('.kingen-career-badge');
+        if (badge && badge.textContent.trim().indexOf(genre.split('｜')[0]) !== -1) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+})();
 </script>
 
 </body>

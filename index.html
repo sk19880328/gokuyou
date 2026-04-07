@@ -812,6 +812,48 @@
       max-width: 400px;
     }
   }
+
+  /* ========== HOWTO ========== */
+  .howto-section {
+    padding: 40px 20px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .howto-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+  }
+  .howto-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .howto-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .howto-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #e8650a;
+    line-height: 1;
+    min-width: 36px;
+  }
+  .howto-text {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+    margin: 0;
+    padding-top: 4px;
+  }
+  .howto-sub {
+    font-size: 13px;
+    color: #888;
+  }
 </style>
 </head>
 <body>
@@ -845,6 +887,7 @@
 </section>
 
 <!-- STATS -->
+<!--
 <div class="stats">
   <div class="stat-item">
     <div class="stat-num">127</div>
@@ -859,6 +902,7 @@
     <div class="stat-label">金言</div>
   </div>
 </div>
+-->
 
 <!-- 今日の一歩 -->
 <section class="section" id="today-step">
@@ -1032,6 +1076,25 @@
   <h2 class="concept-title">諦めることは、<br>終わりじゃない。</h2>
   <p class="concept-body">夢を追い続けた時間は、必ず次の力になる。挑戦した人の軌跡を記録し、その先の一歩を応援するサービスです。</p>
 </div>
+
+<!-- HOWTO -->
+<section class="howto-section">
+  <h2 class="howto-title">使い方</h2>
+  <div class="howto-steps">
+    <div class="howto-step">
+      <span class="howto-number">01</span>
+      <p class="howto-text">今日の夢への一歩を記録する<br><span class="howto-sub">練習でも、悩んだ日でも、なんでもいい</span></p>
+    </div>
+    <div class="howto-step">
+      <span class="howto-number">02</span>
+      <p class="howto-text">軌跡がカレンダーに積み上がっていく<br><span class="howto-sub">続けた日が、自分の証明になる</span></p>
+    </div>
+    <div class="howto-step">
+      <span class="howto-number">03</span>
+      <p class="howto-text">仲間の一歩を見て、応援する<br><span class="howto-sub">追いかけてる人も、諦めた人も、ここにいる</span></p>
+    </div>
+  </div>
+</section>
 
 <!-- CTA -->
 <div class="cta">
