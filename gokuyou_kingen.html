@@ -349,11 +349,17 @@
   }
 
   .kingen-card {
-    background: var(--white);
-    border-radius: 14px;
-    padding: 22px 20px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
     border: 1px solid var(--border);
-    box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .kingen-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
   }
 
   .kingen-card-top {
@@ -385,35 +391,53 @@
   .badge-sports { background: #E8F4FD; color: #1A7DC4; }
   .badge-music { background: #F0E8FD; color: #7B35C4; }
   .badge-business { background: var(--green-bg); color: var(--green); }
+  .badge-study { background: #FFF9E6; color: #C4960A; }
 
   .kingen-yume-message {
-    font-size: 12px;
-    color: var(--text2);
-    font-style: italic;
-    margin-top: 12px;
+    font-size: 13px;
+    color: #c0622a;
+    font-style: normal;
+    margin-bottom: 16px;
     padding: 10px 14px;
-    background: var(--primary-bg);
-    border-left: 3px solid var(--primary);
+    background: #fff8f4;
+    border-left: 3px solid #e8824a;
     border-radius: 0 8px 8px 0;
     line-height: 1.7;
   }
 
-  .kingen-quote-text {
-    font-size: 16px;
+  .kingen-yume-label {
+    font-size: 10px;
     font-weight: 700;
-    color: var(--text);
-    line-height: 1.8;
-    margin-bottom: 12px;
+    color: #e8824a;
+    letter-spacing: 0.08em;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .kingen-context {
+    font-size: 11px;
+    color: #999;
+    margin-bottom: 10px;
+    letter-spacing: 0.03em;
+  }
+
+  .kingen-quote-text {
+    font-size: 18px;
+    font-weight: 800;
+    color: #1a1a1a;
+    line-height: 1.5;
+    margin-bottom: 16px;
+    letter-spacing: -0.01em;
   }
 
   .kingen-mini-qa {
     font-size: 13px;
-    color: var(--text3);
-    line-height: 1.9;
-    padding: 12px 14px;
-    background: var(--bg);
-    border-radius: 8px;
-    margin-bottom: 14px;
+    color: #555;
+    line-height: 1.8;
+    padding: 16px;
+    background: #f8f8f8;
+    border-radius: 10px;
+    margin-bottom: 16px;
   }
 
   .kingen-footer {
@@ -754,51 +778,15 @@
     <div class="kingen-card">
       <div class="kingen-card-top">
         <div class="kingen-mark">"</div>
-        <span class="kingen-career-badge badge-sports">Sports｜アスリート</span>
-      </div>
-      <p class="kingen-quote-text">負けたんじゃない。別のゲームに移っただけだと今は思う。</p>
-      <div class="kingen-mini-qa">怪我で引退を決めた日、悔しさより静けさがあった。あの感覚が今の自分の土台になっている。</div>
-      <div class="kingen-footer">
-        <div class="kingen-author-info">
-          <p class="kingen-author-name">ゆうた（28歳）</p>
-          <p class="kingen-author-now">現在 ユースコーチ</p>
-        </div>
-        <a href="#" class="kingen-read-btn">続きを読む →</a>
-      </div>
-      <div class="share-btns">
-        <button class="share-btn share-tw" onclick="shareTwitter('負けたんじゃない。別のゲームに移っただけだと今は思う。')">𝕏 シェア</button>
-        <button class="share-btn share-line" onclick="shareLine('負けたんじゃない。別のゲームに移っただけだと今は思う。')">LINE</button>
-      </div>
-    </div>
-
-    <div class="kingen-card">
-      <div class="kingen-card-top">
-        <div class="kingen-mark">"</div>
         <span class="kingen-career-badge badge-music">Creative｜音楽・アート</span>
       </div>
-      <p class="kingen-quote-text">諦めた日の次の朝が、一番きつかった。でも朝は来た。</p>
-      <div class="kingen-mini-qa">解散した翌朝、いつもより早く目が覚めた。夢がなくなった朝ってやけに静かなんだよね。</div>
-      <div class="kingen-footer">
-        <div class="kingen-author-info">
-          <p class="kingen-author-name">まさき（31歳）</p>
-          <p class="kingen-author-now">現在 営業職</p>
-        </div>
-        <a href="#" class="kingen-read-btn">続きを読む →</a>
-      </div>
-      <div class="share-btns">
-        <button class="share-btn share-tw" onclick="shareTwitter('諦めた日の次の朝が、一番きつかった。でも朝は来た。')">𝕏 シェア</button>
-        <button class="share-btn share-line" onclick="shareLine('諦めた日の次の朝が、一番きつかった。でも朝は来た。')">LINE</button>
-      </div>
-    </div>
-
-    <div class="kingen-card">
-      <div class="kingen-card-top">
-        <div class="kingen-mark">"</div>
-        <span class="kingen-career-badge badge-music">Creative｜音楽・アート</span>
-      </div>
-      <p class="kingen-quote-text">諦めたんじゃない。手を離しただけだ。</p>
+      <p class="kingen-context">プロのバンドマンを目指し、解散するまで本気だった男の話。</p>
+      <p class="kingen-quote-text">「諦めたんじゃない。手を離しただけだ。」</p>
       <div class="kingen-mini-qa">解散した夜、帰り道の電車で窓に映った自分は、思っていたより疲れていた。「まだやれる」「まだ終わってない」と言い続けていたのは、夢のためじゃなく、夢を失う自分が怖かっただけだった。スタジオの鍵を返した瞬間、胸の奥で何かが静かに崩れた。でも、その崩れた場所に風が通った。翌朝、やけに早く目が覚めた。悔しさより、自由の方が先に来た。</div>
-      <p class="kingen-yume-message">夢を追うあなたへ：思いっきりやっても思いっきりやらなくても朝は来る、だから思いっきりやれ！</p>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        思いっきりやっても思いっきりやらなくても朝は来る、だから思いっきりやれ！
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
           <p class="kingen-author-name">まさき（31歳）</p>
@@ -816,9 +804,13 @@
         <div class="kingen-mark">"</div>
         <span class="kingen-career-badge badge-entertainer">Entertainment｜芸能・お笑い</span>
       </div>
-      <p class="kingen-quote-text">普通に生きることを、ようやく許せた。</p>
+      <p class="kingen-context">M-1に10年挑み続け、一度も二回戦に届かなかった冬の話。</p>
+      <p class="kingen-quote-text">「普通に生きることを、ようやく許せた。」</p>
       <div class="kingen-mini-qa">十年目の敗退の日、劇場の裏口で相方と別れたあと、手に残ったのは汗で湿ったネタ帳だけでした。ページの端が何度も折れていて、そこに書いた言葉が、急に遠くなった気がしました。夢を追っている限り、どこかで特別な存在だと思い込んでいました。でも帰り道、コンビニで買った肉まんを食べながら、「明日からどうやって生きていくんだろう」と初めて現実が迫ってきました。芸人を辞めて働き始めたとき、生活は地味で、でも確かでした。普通に生きることを、ようやく許せた。そう気づいたのは、ずいぶん後になってからのことでした。</div>
-      <p class="kingen-yume-message">夢を追うあなたへ：社会は厳しいですが、あたたかいです。いつでも人生はやり直せます。だから大丈夫。</p>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        社会は厳しいですが、あたたかいです。いつでも人生はやり直せます。だから大丈夫。
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
           <p class="kingen-author-name">男性（43歳）</p>
@@ -836,9 +828,13 @@
         <div class="kingen-mark">"</div>
         <span class="kingen-career-badge badge-sports">Sports｜アスリート</span>
       </div>
-      <p class="kingen-quote-text">悔しさより、静けさの方が先に来た。</p>
+      <p class="kingen-context">社会人チームの最終選考で、連絡が来なかった夜の話。</p>
+      <p class="kingen-quote-text">「悔しさより、静けさの方が先に来た。」</p>
       <div class="kingen-mini-qa">最後の選考の日、連絡が来なかった夜は、思っていたより静かでした。悔しさで眠れないと思っていたのに、胸の奥は不思議と落ち着いていて、長く張りつめていた糸が切れたような感覚だけが残りました。「必ずサッカーで食べていける」と信じていた自分を、なかなか諦められなかった。それでも、当時からそばにいてくれた彼女と結婚し、子どもが生まれて、守るものが増えていくうちに、あの夜の静けさの意味が少しだけ分かってきました。夢を手放したことに悔いがないと言えば嘘になりますが、いまの生活を選んだ自分にも、嘘はつけないんです。</div>
-      <p class="kingen-yume-message">夢を追うあなたへ：夢を諦めても別の夢を作れる。夢があることが重要なのではなく、夢を諦めないその過程が重要だと思います。</p>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        夢を諦めても別の夢を作れる。夢があることが重要なのではなく、夢を諦めないその過程が重要だと思います。
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
           <p class="kingen-author-name">男性（32歳）</p>
@@ -854,20 +850,144 @@
     <div class="kingen-card">
       <div class="kingen-card-top">
         <div class="kingen-mark">"</div>
-        <span class="kingen-career-badge badge-business">Business｜起業・経営</span>
+        <span class="kingen-career-badge badge-study">Study｜勉強・学習</span>
       </div>
-      <p class="kingen-quote-text">失敗は恥じゃない。やらなかったことの方が、ずっと恥ずかしい。</p>
-      <div class="kingen-mini-qa">会社を畳んだ時、周りの目が怖かった。でも今はあの経験を話すと、みんな目を輝かせて聞いてくれる。</div>
+      <p class="kingen-context">司法試験に5年挑戦し、最後の受験で断念した話。</p>
+      <p class="kingen-quote-text">「限界は静かに来る」</p>
+      <div class="kingen-mini-qa">最初の2年は、落ちても「次こそ」と思えてた。周りも応援してくれて、私自身もまだ戦える気がしてた。でも4年目あたりから、朝起きた瞬間に胸が重くなる日が増えて、勉強机に向かうまでが遠かった。最後の受験の結果を見た瞬間、泣くとかじゃなくて、ただ静かに「あ、もう無理だ」と思った。誰にも言えずに帰り道のカフェでぼーっとして、気づいたら2時間経ってた。次の日、参考書を段ボールに詰めたとき、やっと終わったんだと実感した。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        頑張れる時期と、頑張れなくなる時期って本当にあるんだと思う。続けるのが正しい時もあるけど、やめるのもちゃんと選択肢に入れていい。自分の体と心の声は、意外と正直だから。
+      </div>
       <div class="kingen-footer">
         <div class="kingen-author-info">
-          <p class="kingen-author-name">けんじ（35歳）</p>
-          <p class="kingen-author-now">現在 会社員</p>
+          <p class="kingen-author-name">みずき_27</p>
+          <p class="kingen-author-now">27歳 / 現在 事務職</p>
         </div>
-        <a href="#" class="kingen-read-btn">続きを読む →</a>
       </div>
       <div class="share-btns">
-        <button class="share-btn share-tw" onclick="shareTwitter('失敗は恥じゃない。やらなかったことの方が、ずっと恥ずかしい。')">𝕏 シェア</button>
-        <button class="share-btn share-line" onclick="shareLine('失敗は恥じゃない。やらなかったことの方が、ずっと恥ずかしい。')">LINE</button>
+        <button class="share-btn share-tw" onclick="shareTwitter('限界は静かに来る')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('限界は静かに来る')">LINE</button>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-business">Business｜起業・経営</span>
+      </div>
+      <p class="kingen-context">スタートアップを創業し、資金ショートで3年で撤退した話。</p>
+      <p class="kingen-quote-text">「数字は嘘をつかない」</p>
+      <div class="kingen-mini-qa">最初の1年は勢いだけで走れた。仲間もいたし、プロダクトも褒められた。でも2年目から売上が伸びなくて、毎月のキャッシュフローを見るたびに胃が痛くなった。投資家との面談も増えて、言葉を選ぶ自分が嫌になった。最後の3ヶ月は、毎朝「今日で終わるかも」と思いながらオフィスに行ってた。資金ショートが確定した日、仲間に伝えた瞬間の空気は今でも忘れられない。鍵を返した帰り道、やっと肩の力が抜けた。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        やってみないと分からないことばっかりだった。失敗したけど、挑戦したこと自体は後悔してない。数字に追われる前に、誰かに相談してほしい。ひとりで抱えると、判断が鈍る。
+      </div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">taka_ex</p>
+          <p class="kingen-author-now">33歳 / 現在 会社員に戻った</p>
+        </div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('数字は嘘をつかない')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('数字は嘘をつかない')">LINE</button>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-sports">Sports｜アスリート</span>
+      </div>
+      <p class="kingen-context">Jリーグユースに落選し、高校で競技を引退した話。</p>
+      <p class="kingen-quote-text">「届かない夢もある」</p>
+      <div class="kingen-mini-qa">中学の頃から「プロになる」って言い続けてきた。高校に入ってからは毎日自主練して、監督にも食らいついた。でもユースの最終選考で名前が呼ばれなかった瞬間、頭が真っ白になった。帰りの電車で、ボールを持つ手が震えてた。翌日、部室に行ったら後輩が普通に練習してて、その光景を見たときに「あ、俺はもうここにいないんだ」と思った。スパイクをしまったとき、胸の奥がスッと冷えた。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        名前が呼ばれなかった瞬間、頭が真っ白になった。あの感覚、今でも覚えてる。でもそれがあったから、今の自分がいる気がしてる。
+      </div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">haru_soccer</p>
+          <p class="kingen-author-now">20歳 / 現在 大学生</p>
+        </div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('届かない夢もある')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('届かない夢もある')">LINE</button>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-music">Creative｜音楽・アート</span>
+      </div>
+      <p class="kingen-context">イラストレーターとして独立を目指したが、収入が安定せず断念した話。</p>
+      <p class="kingen-quote-text">「好きだけじゃ回らない」</p>
+      <div class="kingen-mini-qa">会社を辞めて独立した最初の半年は、毎日描けるのが楽しかった。でも依頼が途切れると一気に不安になって、SNSの数字ばかり気にするようになった。友達のイラストが伸びてるのを見ると、胸がざわついた。家賃の支払いがギリギリになった月、鏡を見たら顔が疲れ切ってて、そこでやっと限界を認めた。会社に戻ると決めた日は、悔しいよりも安心の方が大きかった。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        好きな気持ちが消えたわけじゃない。
+      </div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">nana_design</p>
+          <p class="kingen-author-now">29歳 / 現在 デザイン事務所勤務</p>
+        </div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('好きだけじゃ回らない')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('好きだけじゃ回らない')">LINE</button>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-music">Creative｜音楽・アート</span>
+      </div>
+      <p class="kingen-context">インディーズデビュー目前でメンバーの方向性が合わず解散した話。</p>
+      <p class="kingen-quote-text">「続けるより難しいのは、終わらせること」</p>
+      <div class="kingen-mini-qa">ライブハウスを回ってた頃は、毎週が楽しかった。デビューの話が来たとき、全員で泣いた。でもレコーディングが始まってから、曲の方向性でぶつかることが増えて、スタジオの空気が重くなった。最後のミーティングで「もう無理だな」と全員が感じてたと思う。解散を決めた帰り道、ギターケースがいつもより重かった。家に帰ってアンプの電源を切ったとき、胸の奥がスッと空っぽになった。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        仲間がいる夢って、ひとりじゃ決められないことが多い。誰が悪いとかじゃなくて、タイミングなんだと思う。音楽は今も好きだから、細く続けてる。
+      </div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">ryoji_band</p>
+          <p class="kingen-author-now">31歳 / 現在 会社員</p>
+        </div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('続けるより難しいのは、終わらせること')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('続けるより難しいのは、終わらせること')">LINE</button>
+      </div>
+    </div>
+
+    <div class="kingen-card">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-entertainer">Entertainment｜芸能・お笑い</span>
+      </div>
+      <p class="kingen-context">声優オーディションに4年挑戦し、結果が出ず断念した話。</p>
+      <p class="kingen-quote-text">「声が震えた日に、やめることを決めた。」</p>
+      <div class="kingen-mini-qa">専門学校を出てから、毎月のようにオーディションを受けた。最初は一次で落ちても「次がある」と思えたけど、3年目くらいから通知メールを開く手が重くなった。最後の年、最終まで残った作品があって、本気で期待してた。でも落選のメールを見た瞬間、涙も出なくて、ただスマホを置いた。次の日、録音ブースに入ったら声が震えてて、そこでやめることを決めた。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        声って、その日の気持ちが全部出るんだよね。無理して出そうとすると余計に出なくなる。焦らなくていいし、休むのも全然ありだと思う。
+      </div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">あき</p>
+          <p class="kingen-author-now">26歳 / 現在 一般職</p>
+        </div>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('声が震えた日に、やめることを決めた。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('声が震えた日に、やめることを決めた。')">LINE</button>
       </div>
     </div>
 
@@ -883,19 +1003,19 @@
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <a href="#" class="nav-item">
+  <a href="./" class="nav-item">
     <span class="nav-icon">🏠</span>
     <span class="nav-label">ホーム</span>
   </a>
-  <a href="#" class="nav-item">
-    <span class="nav-icon">📅</span>
-    <span class="nav-label">カレンダー</span>
+  <a href="./log" class="nav-item">
+    <span class="nav-icon">📖</span>
+    <span class="nav-label">軌跡</span>
   </a>
-  <a href="#" class="nav-item active">
+  <a href="./gokuyou_kingen" class="nav-item active">
     <span class="nav-icon">📜</span>
     <span class="nav-label">金言</span>
   </a>
-  <a href="#" class="nav-item">
+  <a href="https://docs.google.com/forms/d/1aVv1NRdbYKnbLiW2dkTLZzEBKwCO_7a4DnQOUguxZ2s/viewform" class="nav-item">
     <span class="nav-icon">＋</span>
     <span class="nav-label">記録する</span>
   </a>
