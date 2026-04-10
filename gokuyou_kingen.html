@@ -392,6 +392,78 @@
   .badge-music { background: #F0E8FD; color: #7B35C4; }
   .badge-business { background: var(--green-bg); color: var(--green); }
   .badge-study { background: #FFF9E6; color: #C4960A; }
+  .badge-creative { background: #F0E8FD; color: #7B35C4; }
+
+  /* ========== ARTICLE MODAL ========== */
+  .article-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 24px 16px;
+  }
+  .article-modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+  .article-modal {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 560px;
+    width: 100%;
+    padding: 28px 24px;
+    position: relative;
+    margin: auto;
+  }
+  .article-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #888;
+    line-height: 1;
+  }
+  .article-modal-badge {
+    font-size: 11px;
+    font-weight: 700;
+    background: #F0E8FD;
+    color: #7B35C4;
+    border-radius: 6px;
+    padding: 3px 8px;
+    display: inline-block;
+    margin-bottom: 14px;
+  }
+  .article-modal-kingen {
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    border-left: 3px solid #e8650a;
+    padding-left: 12px;
+  }
+  .article-story {
+    font-size: 14px;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 14px;
+  }
+  .article-message {
+    font-size: 13px;
+    color: #c0622a;
+    font-weight: 700;
+    margin-top: 20px;
+    padding: 12px 14px;
+    background: #FFF5EF;
+    border-radius: 8px;
+  }
+  .article-modal-author {
+    font-size: 12px;
+    color: #888;
+    margin-top: 18px;
+  }
 
   .kingen-yume-message {
     font-size: 13px;
@@ -1094,8 +1166,59 @@
       </div>
     </div>
 
+    <!-- illustrator-01 -->
+    <div class="kingen-card" data-genre="creative">
+      <div class="kingen-card-top">
+        <div class="kingen-mark">"</div>
+        <span class="kingen-career-badge badge-creative">Creative｜音楽・アート</span>
+      </div>
+      <p class="kingen-context">元イラストレーター志望。描くほど下手さが浮き上がり、気づいたらペンを握らなくなっていた話。</p>
+      <p class="kingen-quote-text">「無理しないでいいと思います。でも、最後まで続けられる人が成功するのかなとも思います。」</p>
+      <div class="kingen-mini-qa">描けば描くほど下手さが浮き上がってくる時期があった。投稿ボタンを押すのが怖くなって、気づいたらペンを握らないことに罪悪感がなくなっていた。</div>
+      <div class="kingen-yume-message">
+        <span class="kingen-yume-label">夢を追うあなたへ</span>
+        気合いじゃなくて、週に一回でも「ここだけは触る」という場所をつくっておく。それだけで、もう少し続けられたかもしれない。
+      </div>
+      <div class="kingen-footer">
+        <div class="kingen-author-info">
+          <p class="kingen-author-name">匿名（26歳）</p>
+          <p class="kingen-author-now">現在 会社員</p>
+        </div>
+        <a href="#" class="kingen-read-btn" data-modal="illustrator-01">続きを読む →</a>
+      </div>
+      <div class="share-btns">
+        <button class="share-btn share-tw" onclick="shareTwitter('無理しないでいいと思います。でも、最後まで続けられる人が成功するのかなとも思います。')">𝕏 シェア</button>
+        <button class="share-btn share-line" onclick="shareLine('無理しないでいいと思います。でも、最後まで続けられる人が成功するのかなとも思います。')">LINE</button>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<!-- ARTICLE MODAL -->
+<div class="article-modal-overlay" id="article-modal-overlay">
+  <div class="article-modal">
+    <button class="article-modal-close" id="article-modal-close">✕</button>
+    <div id="article-modal-body"></div>
+  </div>
+</div>
+
+<!-- ARTICLE DATA -->
+<script type="application/json" id="article-illustrator-01">
+{
+  "badge": "Creative｜音楽・アート",
+  "kingen": "無理しないでいいと思います。でも、最後まで続けられる人が成功するのかなとも思います。",
+  "author": "匿名（26歳）",
+  "now": "現在 会社員",
+  "story": [
+    "19歳でSNSに絵を上げ始めたとき、最初はほとんど反応がなかった。それでも描き続けていたら、ある日、知らない人から「この絵、好きです」とコメントがついた。自分の部屋でひとりで描いていたものが、見ず知らずの誰かに届いたんだと思えて、あの瞬間だけは本当に報われた気がしました。",
+    "描けば描くほど、自分の下手さだけが浮き上がってくる時期がありました。投稿ボタンを押すのが怖くなって、毎日描いているのに反応は減っていく。しんどかったのは、その繰り返しの中にいたときでした。",
+    "諦めた瞬間は、はっきり覚えていません。仕事が忙しくなって、描かない日が続いた。気づいたら、ペンを握らないことへの罪悪感がなくなっていました。「描けない」じゃなくて、「描かなくても平気」になったとき、ああもう戻れないんだなと思いました。机の端のペンを片付けて、空いたスペースを見て「まあ、こういうもんか」と思っただけでした。",
+    "気合いじゃなくて、週に一回でも「ここだけは触る」という場所をつくっておく。それだけで、もう少し続けられたかもしれません。"
+  ],
+  "message": "無理しないでいいと思います。でも、最後まで続けられる人が成功するのかなとも思います。"
+}
+</script>
 
 <!-- CTA -->
 <div class="cta">
@@ -1136,6 +1259,38 @@ function shareLine(quote) {
   var text = encodeURIComponent('「' + quote + '」\n./gokuyou_kingen');
   window.open('https://line.me/R/msg/text/?' + text, '_blank', 'noopener');
 }
+
+// Article modal
+(function() {
+  var overlay = document.getElementById('article-modal-overlay');
+  var body = document.getElementById('article-modal-body');
+  var closeBtn = document.getElementById('article-modal-close');
+
+  document.querySelectorAll('[data-modal]').forEach(function(btn) {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var id = btn.getAttribute('data-modal');
+      var dataEl = document.getElementById('article-' + id);
+      if (!dataEl) return;
+      var d = JSON.parse(dataEl.textContent);
+      var html = '<span class="article-modal-badge">' + d.badge + '</span>'
+        + '<p class="article-modal-kingen">' + d.kingen + '</p>'
+        + d.story.map(function(p) { return '<p class="article-story">' + p + '</p>'; }).join('')
+        + '<p class="article-message">夢を追うあなたへ：' + d.message + '</p>'
+        + '<p class="article-modal-author">' + d.author + '&nbsp;&nbsp;' + d.now + '</p>';
+      body.innerHTML = html;
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeModal() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  closeBtn.addEventListener('click', closeModal);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) closeModal(); });
+})();
 
 // Genre filter
 (function() {
