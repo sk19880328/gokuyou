@@ -1,0 +1,267 @@
+// オンボーディング / ログイン画面
+import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TextInput,
+  Alert,
+  Platform,
+  KeyboardAvoidingView,
+  ScrollView,
+  Linking,
+  ActivityIndicator,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import * as AppleAuthentication from 'expo-apple-authentication';
+import { colors } from '../config/colors';
+import { useAuth } from '../hooks/useAuth';
+
+export default function OnboardingScreen() {
+  const { signInWithApple, signInWithEmail } = useAuth();
+  const [showEmail, setShowEmail] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  const handleApple = async () => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await signInWithApple();
+    } catch (e: any) {
+      Alert.alert('ログイン失敗', e?.message ?? 'もう一度お試しください');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleEmail = async () => {
+    if (busy) return;
+    if (!email.trim() || password.length < 6) {
+      Alert.alert('入力エラー', 'メールアドレスと6文字以上のパスワードを入力してください');
+      return;
+    }
+    setBusy(true);
+    try {
+      await signInWithEmail(email.trim(), password);
+    } catch (e: any) {
+      Alert.alert('ログイン失敗', e?.message ?? 'もう一度お試しください');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <SafeAreaView style={styles.safe} edges={['top', 'bottom']}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      >
+        <ScrollView
+          contentContainerStyle={styles.container}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View style={styles.hero}>
+            <Text style={styles.heroEmoji}>🍺</Text>
+          </View>
+
+          <Text style={styles.headline}>
+            友達がいきますかーしてるかもしれない
+          </Text>
+          <Text style={styles.sub}>
+            誘ってないから大丈夫。気分を置いておくだけ。
+          </Text>
+
+          <View style={styles.actions}>
+            {Platform.OS === 'ios' && (
+              <Pressable
+                onPress={handleApple}
+                disabled={busy}
+                style={({ pressed }) => [
+                  styles.appleBtn,
+                  pressed && { opacity: 0.85 },
+                ]}
+              >
+                {busy ? (
+                  <ActivityIndicator color="#fff" />
+                ) : (
+                  <Text style={styles.appleText}> Appleでログイン</Text>
+                )}
+              </Pressable>
+            )}
+
+            {!showEmail ? (
+              <Pressable
+                onPress={() => setShowEmail(true)}
+                style={({ pressed }) => [
+                  styles.emailBtn,
+                  pressed && { opacity: 0.85 },
+                ]}
+              >
+                <Text style={styles.emailText}>メールアドレスでログイン</Text>
+              </Pressable>
+            ) : (
+              <View style={styles.emailForm}>
+                <TextInput
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="メールアドレス"
+                  placeholderTextColor={colors.textLight}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="email-address"
+                  style={styles.input}
+                />
+                <TextInput
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="パスワード(6文字以上)"
+                  placeholderTextColor={colors.textLight}
+                  secureTextEntry
+                  style={styles.input}
+                />
+                <Pressable
+                  onPress={handleEmail}
+                  disabled={busy}
+                  style={({ pressed }) => [
+                    styles.submitBtn,
+                    pressed && { opacity: 0.85 },
+                  ]}
+                >
+                  {busy ? (
+                    <ActivityIndicator color={colors.narumi} />
+                  ) : (
+                    <Text style={styles.submitText}>はじめる</Text>
+                  )}
+                </Pressable>
+              </View>
+            )}
+          </View>
+
+          <View style={styles.footer}>
+            <Pressable
+              onPress={() => Linking.openURL('https://example.com/terms')}
+            >
+              <Text style={styles.footerLink}>利用規約</Text>
+            </Pressable>
+            <Text style={styles.footerSep}>・</Text>
+            <Pressable
+              onPress={() => Linking.openURL('https://example.com/privacy')}
+            >
+              <Text style={styles.footerLink}>プライバシーポリシー</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: colors.narumi,
+  },
+  container: {
+    padding: 24,
+    paddingBottom: 40,
+    gap: 18,
+  },
+  hero: {
+    height: 240,
+    backgroundColor: colors.ai,
+    borderRadius: 32,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  heroEmoji: {
+    fontSize: 96,
+  },
+  headline: {
+    fontSize: 22,
+    color: colors.ai,
+    fontWeight: '600',
+    textAlign: 'center',
+    lineHeight: 32,
+    paddingHorizontal: 6,
+  },
+  sub: {
+    fontSize: 13,
+    color: colors.textMuted,
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  actions: {
+    gap: 12,
+    marginTop: 8,
+  },
+  appleBtn: {
+    backgroundColor: '#000',
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  appleText: {
+    color: '#fff',
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  emailBtn: {
+    backgroundColor: '#fff',
+    borderWidth: 1.5,
+    borderColor: colors.ai,
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  emailText: {
+    color: colors.ai,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  emailForm: {
+    gap: 10,
+  },
+  input: {
+    backgroundColor: '#fff',
+    borderWidth: 1,
+    borderColor: 'rgba(26,26,26,0.1)',
+    borderRadius: 14,
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    fontSize: 15,
+    color: colors.text,
+  },
+  submitBtn: {
+    backgroundColor: colors.shu,
+    paddingVertical: 16,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  submitText: {
+    color: colors.narumi,
+    fontSize: 15,
+    fontWeight: '600',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  footerLink: {
+    fontSize: 12,
+    color: colors.textMuted,
+    textDecorationLine: 'underline',
+  },
+  footerSep: {
+    color: colors.textLight,
+    marginHorizontal: 6,
+  },
+});
