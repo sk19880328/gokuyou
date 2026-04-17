@@ -1233,14 +1233,6 @@ function shareLine(quote) {
   function createCard(item) {
     var genreKey = item.genre.toLowerCase();
     var shareText = item.kingen.replace(/^「/, '').replace(/」$/, '');
-    var miniQaHtml = '';
-    if (item.mini_qa && item.mini_qa.length) {
-      miniQaHtml = '<div class="kingen-mini-qa">' +
-        item.mini_qa.map(function(qa) {
-          return '<div class="qa-item"><p class="qa-q">' + qa.q + '</p><p class="qa-a">' + qa.a + '</p></div>';
-        }).join('') +
-        '</div>';
-    }
     var el = document.createElement('div');
     el.className = 'kingen-card';
     el.setAttribute('data-genre', genreKey);
@@ -1261,8 +1253,7 @@ function shareLine(quote) {
       '<div class="share-btns">' +
         '<button class="share-btn share-tw" onclick="shareTwitter(\'' + shareText + '\')">𝕏 シェア</button>' +
         '<button class="share-btn share-line" onclick="shareLine(\'' + shareText + '\')">LINE</button>' +
-      '</div>' +
-      miniQaHtml;
+      '</div>';
     return el;
   }
 
