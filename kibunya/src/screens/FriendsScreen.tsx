@@ -1,4 +1,4 @@
-// フレンド一覧画面
+// フレンド一覧画面(v2: ダーク基調)
 import React, { useCallback } from 'react';
 import {
   View,
@@ -41,7 +41,7 @@ export default function FriendsScreen() {
       <View
         style={[
           styles.dot,
-          { backgroundColor: item.isOnline ? '#3BB273' : 'rgba(26,26,26,0.2)' },
+          { backgroundColor: item.isOnline ? colors.online : colors.offline },
         ]}
       />
     </View>
@@ -95,7 +95,7 @@ export default function FriendsScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.narumi,
+    backgroundColor: colors.ai,
   },
   header: {
     flexDirection: 'row',
@@ -107,8 +107,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: '600',
-    color: colors.text,
+    fontWeight: '700',
+    color: colors.cream,
   },
   inviteBtn: {
     backgroundColor: colors.shu,
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     borderRadius: 14,
   },
   inviteText: {
-    color: colors.narumi,
+    color: colors.cream,
     fontSize: 13,
     fontWeight: '600',
   },
@@ -131,7 +131,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 14,
     borderRadius: 14,
-    backgroundColor: '#fff',
+    backgroundColor: colors.cardBg,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
     marginBottom: 8,
     gap: 12,
   },
@@ -144,13 +146,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarText: {
-    color: colors.narumi,
+    color: colors.ai,
     fontWeight: '700',
   },
   name: {
     flex: 1,
     fontSize: 14,
-    color: colors.text,
+    color: colors.cream,
   },
   dot: {
     width: 10,
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontSize: 14,
-    color: colors.text,
+    color: colors.cream,
     fontWeight: '500',
   },
   emptySub: {

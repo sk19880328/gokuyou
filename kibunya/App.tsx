@@ -1,4 +1,4 @@
-// キブンヤ エントリーポイント
+// キブンヤ エントリーポイント(v2: 興味ベースゲート + プロフィールタブ)
 import 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import { View, ActivityIndicator, StyleSheet, AppState } from 'react-native';
@@ -14,6 +14,7 @@ import { colors } from './src/config/colors';
 import { db } from './src/config/firebase';
 import { useAuth } from './src/hooks/useAuth';
 import { useNotifications } from './src/hooks/useNotifications';
+import { useProfile } from './src/hooks/useProfile';
 import {
   registerForPushNotifications,
   setupNotificationHandlers,
@@ -24,6 +25,8 @@ import OnboardingScreen from './src/screens/OnboardingScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import NotificationsScreen from './src/screens/NotificationsScreen';
 import FriendsScreen from './src/screens/FriendsScreen';
+import ProfileScreen from './src/screens/ProfileScreen';
+import InterestSelectionScreen from './src/screens/InterestSelectionScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -34,27 +37,29 @@ const linking = {
       Home: 'home',
       Notifications: 'notifications',
       Friends: 'friends',
+      Profile: 'profile',
     },
   },
 };
 
 function MainTabs() {
   const { currentUser } = useAuth();
-  const { unreadCount } = useNotifications(currentUser?.uid);
+  const { profile } = useProfile(currentUser?.uid);
+  const { unreadCount } = useNotifications(currentUser?.uid, profile.interests);
 
   return (
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: 'rgba(255,249,236,0.92)',
-          borderTopColor: 'rgba(26,26,26,0.07)',
+          backgroundColor: colors.aiDeep,
+          borderTopColor: colors.cardBorder,
           borderTopWidth: 1,
           height: 70,
           paddingBottom: 10,
           paddingTop: 8,
         },
-        tabBarActiveTintColor: colors.shu,
+        tabBarActiveTintColor: colors.yamabuki,
         tabBarInactiveTintColor: colors.textMuted,
         tabBarLabelStyle: { fontSize: 11 },
       }}
@@ -90,36 +95,42 @@ function MainTabs() {
           ),
         }}
       />
+      <Tab.Screen
+        name="Profile"
+        component={ProfileScreen}
+        options={{
+          title: 'プロフィール',
+          tabBarIcon: ({ focused }) => (
+            <Text style={{ fontSize: focused ? 22 : 20 }}>👤</Text>
+          ),
+        }}
+      />
     </Tab.Navigator>
   );
 }
 
 function Root() {
   const { currentUser, loading } = useAuth();
+  const { profile, loading: profileLoading } = useProfile(currentUser?.uid);
 
-  // 通知ハンドラーをセットアップ
   useEffect(() => {
     setupNotificationHandlers();
   }, []);
 
-  // ログイン後: プッシュトークン登録 + ディープリンク処理
   useEffect(() => {
     if (!currentUser) return;
 
     registerForPushNotifications(currentUser.uid);
 
-    // 初回起動時の招待リンク
     Linking.getInitialURL().then((url) => {
       if (url) handleInviteLink(url, currentUser.uid);
     });
-    // 起動中の招待リンク
     const sub = Linking.addEventListener('url', ({ url }) => {
       handleInviteLink(url, currentUser.uid);
     });
     return () => sub.remove();
   }, [currentUser]);
 
-  // lastSeen の定期更新(オンライン状態検知用)
   useEffect(() => {
     if (!currentUser) return;
     const updateLastSeen = () => {
@@ -152,6 +163,20 @@ function Root() {
     return <OnboardingScreen />;
   }
 
+  // 認証済みでプロフィール読み込み中
+  if (profileLoading) {
+    return (
+      <View style={styles.loading}>
+        <ActivityIndicator color={colors.shu} />
+      </View>
+    );
+  }
+
+  // 興味未選択ならゲート
+  if (profile.interests.length === 0) {
+    return <InterestSelectionScreen />;
+  }
+
   return (
     <NavigationContainer linking={linking}>
       <MainTabs />
@@ -162,7 +187,7 @@ function Root() {
 export default function App() {
   return (
     <SafeAreaProvider>
-      <StatusBar style="dark" />
+      <StatusBar style="light" />
       <Root />
     </SafeAreaProvider>
   );
@@ -171,7 +196,7 @@ export default function App() {
 const styles = StyleSheet.create({
   loading: {
     flex: 1,
-    backgroundColor: colors.narumi,
+    backgroundColor: colors.ai,
     justifyContent: 'center',
     alignItems: 'center',
   },

@@ -1,4 +1,4 @@
-// 友達ステータスピル(横スクロール用)
+// 友達ステータスピル(横スクロール用・v2 ダーク基調)
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { colors } from '../config/colors';
@@ -14,7 +14,7 @@ export default function FriendPill({ name, online }: Props) {
       <View
         style={[
           styles.dot,
-          { backgroundColor: online ? '#3BB273' : 'rgba(26,26,26,0.2)' },
+          { backgroundColor: online ? colors.online : colors.offline },
         ]}
       />
       <Text style={styles.name} numberOfLines={1}>
@@ -31,7 +31,9 @@ const styles = StyleSheet.create({
     gap: 6,
     paddingHorizontal: 12,
     paddingVertical: 7,
-    backgroundColor: 'rgba(27,58,107,0.08)',
+    backgroundColor: colors.cardBg,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
     borderRadius: 20,
     marginRight: 8,
     maxWidth: 140,
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
   },
   name: {
     fontSize: 12,
-    color: colors.ai,
+    color: colors.cream,
     fontWeight: '500',
   },
 });

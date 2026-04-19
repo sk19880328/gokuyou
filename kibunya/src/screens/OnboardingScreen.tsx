@@ -1,4 +1,4 @@
-// オンボーディング / ログイン画面
+// オンボーディング / ログイン画面(v2: 藍ベースのダーク基調)
 import React, { useState } from 'react';
 import {
   View,
@@ -14,7 +14,6 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import * as AppleAuthentication from 'expo-apple-authentication';
 import { colors } from '../config/colors';
 import { useAuth } from '../hooks/useAuth';
 
@@ -67,11 +66,12 @@ export default function OnboardingScreen() {
             <Text style={styles.heroEmoji}>🍺</Text>
           </View>
 
+          <Text style={styles.kicker}>KIBUNYA</Text>
           <Text style={styles.headline}>
-            友達がいきますかーしてるかもしれない
+            気分だけ、置いておく。
           </Text>
           <Text style={styles.sub}>
-            誘ってないから大丈夫。気分を置いておくだけ。
+            誘ってないから大丈夫。{'\n'}同じ気分の友達が来たら、乾杯。
           </Text>
 
           <View style={styles.actions}>
@@ -131,7 +131,7 @@ export default function OnboardingScreen() {
                   ]}
                 >
                   {busy ? (
-                    <ActivityIndicator color={colors.narumi} />
+                    <ActivityIndicator color={colors.cream} />
                   ) : (
                     <Text style={styles.submitText}>はじめる</Text>
                   )}
@@ -162,37 +162,48 @@ export default function OnboardingScreen() {
 const styles = StyleSheet.create({
   safe: {
     flex: 1,
-    backgroundColor: colors.narumi,
+    backgroundColor: colors.ai,
   },
   container: {
     padding: 24,
     paddingBottom: 40,
-    gap: 18,
+    gap: 14,
   },
   hero: {
-    height: 240,
-    backgroundColor: colors.ai,
+    height: 220,
+    backgroundColor: colors.aiDeep,
     borderRadius: 32,
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: 8,
+    borderWidth: 1,
+    borderColor: colors.cardBorder,
   },
   heroEmoji: {
     fontSize: 96,
   },
-  headline: {
-    fontSize: 22,
-    color: colors.ai,
-    fontWeight: '600',
+  kicker: {
+    fontSize: 12,
+    letterSpacing: 5,
+    color: colors.yamabuki,
+    fontWeight: '700',
     textAlign: 'center',
-    lineHeight: 32,
+    marginTop: 4,
+  },
+  headline: {
+    fontSize: 24,
+    color: colors.cream,
+    fontWeight: '700',
+    textAlign: 'center',
+    lineHeight: 34,
     paddingHorizontal: 6,
   },
   sub: {
     fontSize: 13,
     color: colors.textMuted,
     textAlign: 'center',
-    marginBottom: 8,
+    lineHeight: 20,
+    marginBottom: 12,
   },
   actions: {
     gap: 12,
@@ -211,16 +222,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   emailBtn: {
-    backgroundColor: '#fff',
+    backgroundColor: 'transparent',
     borderWidth: 1.5,
-    borderColor: colors.ai,
+    borderColor: colors.yamabuki,
     paddingVertical: 16,
     borderRadius: 16,
     alignItems: 'center',
     justifyContent: 'center',
   },
   emailText: {
-    color: colors.ai,
+    color: colors.yamabuki,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -228,14 +239,14 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.cardBg,
     borderWidth: 1,
-    borderColor: 'rgba(26,26,26,0.1)',
+    borderColor: colors.cardBorder,
     borderRadius: 14,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 15,
-    color: colors.text,
+    color: colors.cream,
   },
   submitBtn: {
     backgroundColor: colors.shu,
@@ -245,7 +256,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   submitText: {
-    color: colors.narumi,
+    color: colors.cream,
     fontSize: 15,
     fontWeight: '600',
   },
@@ -253,7 +264,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: 20,
   },
   footerLink: {
     fontSize: 12,

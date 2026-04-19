@@ -1,12 +1,25 @@
 # キブンヤ (KIBUNYA)
 
-ちょい飲み気分通知アプリ。
+気分を置いておくアプリ。
 友達がいきますかーしてるかもしれない。誘ってないから大丈夫。気分を置いておくだけ。
 
-## 📱 なにができる？
-- 🍺 「いきますかー」ボタンで友達全員に気分通知
-- 🔔 友達からの気分アラート受信+「かー」リアクション
+## 📱 なにができる? (v2)
+
+### 4アクティビティ対応
+ちょい飲み・サウナ・ランチ・麻雀の4つの気分を置いておける。
+- 🍺 ちょい飲み → マッチで 🍻
+- 🧖‍♀️ サウナ → マッチで ♨️
+- 🍜 ランチ → マッチで 🍽️
+- 🀄 麻雀 → マッチで 💸
+
+### 興味ベース通知フィルタ
+自分が選んだ興味(アクティビティ)に一致する通知だけ届く。
+初回ログイン後に選択画面でセットし、プロフィール画面からいつでも変更可能。
+
+### その他
+- 🔔 アラートタブで通知一覧+「かー」リアクション
 - 👥 招待リンクで友達追加
+- 👤 プロフィール編集(名前・活動エリア・一言・気分の種類)
 - 🔐 Apple / メールでログイン
 
 ## 🏗️ 技術スタック
@@ -19,7 +32,7 @@
 
 ```
 kibunya/
-├─ App.tsx                  … エントリーポイント
+├─ App.tsx                  … エントリーポイント(興味ゲート+Profileタブ)
 ├─ app.json                 … Expo 設定
 ├─ eas.json                 … EAS Build 設定
 ├─ package.json             … 依存関係
@@ -29,27 +42,33 @@ kibunya/
 ├─ firestore.indexes.json
 ├─ firebase.json
 ├─ .gitignore
+├─ .env.example
 ├─ assets/                  … アイコン・スプラッシュ (要追加)
 └─ src/
    ├─ config/
    │  ├─ firebase.ts        … Firebase 初期化
-   │  └─ colors.ts          … カラーパレット
+   │  ├─ colors.ts          … カラーパレット(藍/山吹/朱)
+   │  └─ activities.ts      … 4アクティビティ定義(マッチ絵文字含む)
    ├─ hooks/
    │  ├─ useAuth.ts         … 認証状態+サインイン
    │  ├─ useFriends.ts      … 友達一覧+追加
-   │  └─ useNotifications.ts… 通知購読+リアクション
+   │  ├─ useNotifications.ts… 通知購読+リアクション(興味フィルタ)
+   │  └─ useProfile.ts      … プロフィール+興味リスト
    ├─ utils/
    │  ├─ pushNotifications.ts … Expo Push + FCMトークン登録
    │  └─ inviteLink.ts      … 招待ディープリンク
    ├─ components/
    │  ├─ SendOverlay.tsx    … 送信完了モーダル
    │  ├─ NotificationCard.tsx … 通知カード
-   │  └─ FriendPill.tsx     … 友達ステータスピル
+   │  ├─ FriendPill.tsx     … 友達ステータスピル
+   │  └─ ActivityTab.tsx    … アクティビティ切替タブ
    └─ screens/
-      ├─ OnboardingScreen.tsx
-      ├─ HomeScreen.tsx
-      ├─ NotificationsScreen.tsx
-      └─ FriendsScreen.tsx
+      ├─ OnboardingScreen.tsx       … ログイン(ダーク基調)
+      ├─ InterestSelectionScreen.tsx… 興味選択(初回+編集)
+      ├─ HomeScreen.tsx             … 4アクティビティ対応ホーム
+      ├─ NotificationsScreen.tsx    … アラート一覧(興味フィルタ)
+      ├─ FriendsScreen.tsx          … フレンド一覧
+      └─ ProfileScreen.tsx          … プロフィール編集
 ```
 
 ---
@@ -90,7 +109,7 @@ Firebase Console → プロジェクト設定 → アプリを追加
 - iOS: bundleId = `com.kibunya.app`
 - Android: package = `com.kibunya.app`
 
-取得した config を `.env` に書き込む:
+取得した config を `.env` に書き込む(`.env.example` 参照):
 ```bash
 EXPO_PUBLIC_FIREBASE_API_KEY=xxx
 EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN=kibunya-app.firebaseapp.com
@@ -162,6 +181,9 @@ eas submit --platform ios
 users/{userId}
   name: string
   email: string
+  area: string               // 主な活動エリア
+  bio: string                // 一言
+  interests: ActivityId[]    // ["drinking","sauna","lunch","mahjong"]
   fcmToken: string
   lastSeen: timestamp
   createdAt: timestamp
@@ -173,6 +195,7 @@ notifications/{notificationId}
   senderId: string
   senderName: string
   receiverId: string
+  activityId: ActivityId     // どの気分を送ったか
   type: "kibun" | "reaction"
   createdAt: timestamp
   isRead: boolean
@@ -181,11 +204,16 @@ notifications/{notificationId}
 
 ---
 
-## 🎨 カラーパレット
-- `#FFF9EC` 生成(なるみ) … 背景
-- `#F5C518` 山吹(やまぶき) … アクセント
-- `#E8391F` 朱(しゅ) … CTA
-- `#1B3A6B` 藍(あい) … 見出し
+## 🎨 カラーパレット (v2)
+
+ダーク基調(藍ベース)に統一。すべて `src/config/colors.ts` の `colors` 定数を使用。
+
+- `#1A2E55` 藍(あい) … ベース背景 (`colors.ai`)
+- `#122041` 濃藍(あいディープ) … タブバー/深層 (`colors.aiDeep`)
+- `#F5C518` 山吹(やまぶき) … アクセント (`colors.yamabuki`)
+- `#D94829` 朱(しゅ) … CTA (`colors.shu`)
+- `#FFF9EC` 生成(クリーム) … テキスト (`colors.cream`)
+- `#3BB273` オンライン緑 (`colors.online`)
 
 ---
 
