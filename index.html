@@ -163,24 +163,18 @@
   .hero-auth-link {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #fff;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.65);
     text-decoration: none;
-    margin-top: 16px;
-    letter-spacing: 0.04em;
+    margin-top: 14px;
+    letter-spacing: 0.03em;
     position: relative;
     z-index: 1;
-    padding: 9px 18px;
-    border-radius: 8px;
-    border: 1.5px solid rgba(255,255,255,0.7);
-    background: rgba(255,255,255,0.12);
-    backdrop-filter: blur(4px);
   }
   .hero-auth-link:hover {
-    background: rgba(255,255,255,0.22);
-    border-color: #fff;
+    color: rgba(255,255,255,0.9);
   }
 
   /* ========== STATS ========== */
@@ -365,7 +359,13 @@
     font-weight: 700;
   }
 
-  .cal-day.empty { opacity: 0; }
+  .cal-day.empty { opacity: 0; pointer-events: none; }
+  .cal-day:not(.empty) { cursor: pointer; }
+  .cal-day.is-selected {
+    outline: 2px solid var(--primary);
+    outline-offset: -2px;
+    border-radius: 8px;
+  }
 
   .cal-legend {
     display: flex;
@@ -989,7 +989,7 @@
       <div class="cal-day-label">土</div>
     </div>
     <div class="cal-legend">
-      <div class="legend-item"><div class="legend-dot dot-event"></div>予定あり</div>
+      <div class="legend-item"><div class="legend-dot dot-event"></div>イベントあり</div>
       <div class="legend-item"><div class="legend-dot dot-today"></div>今日</div>
     </div>
   </div>
@@ -1079,7 +1079,7 @@
     </div>
     <div class="howto-step">
       <span class="howto-number">03</span>
-      <p class="howto-text">自分の挑戦をシェアする、まだ見ぬ誰かに見つけてもらう<br><span class="howto-sub">イベントカレンダーで予定を公開、応援してもらおう</span></p>
+      <p class="howto-text">自分の挑戦をシェアする<br><span class="howto-sub">イベントカレンダーでイベントを公開、応援してもらおう</span></p>
     </div>
     <div class="howto-step">
       <span class="howto-number">04</span>
@@ -1133,19 +1133,26 @@ function shareLine(quote) {
 // ===== トップ カレンダー =====
 var topCalTab = 'event';
 var topCalEventDates = new Set();
+var allTopCalEvents = [];
+var topCalSelectedDate = null;
 
 function switchTopTab(tab) {
   topCalTab = tab;
+  topCalSelectedDate = null;
   var isEvent = tab === 'event';
   document.getElementById('top-tab-event').classList.toggle('active', isEvent);
   document.getElementById('top-tab-my').classList.toggle('active', !isEvent);
   document.getElementById('top-cal-desc').textContent = isEvent
-    ? '夢追い人たちの本番・活動予定をシェア'
+    ? '夢追い人たちの本番・活動イベントをシェア'
     : '今日の一歩の記録をカレンダーで確認';
   document.getElementById('index-cal-preview').style.display = isEvent ? '' : 'none';
   document.getElementById('index-my-preview').style.display = isEvent ? 'none' : '';
   renderTopCalendar(isEvent ? topCalEventDates : null);
-  if (!isEvent) renderMyLogPreview();
+  if (isEvent) {
+    renderCalPreviewForDate(null);
+  } else {
+    renderMyLogPreviewForDate(null);
+  }
 }
 
 function renderTopCalendar(highlightDates) {
@@ -1175,17 +1182,76 @@ function renderTopCalendar(highlightDates) {
   for (var d = 1; d <= daysInMonth; d++) {
     var dateStr = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
     var el = document.createElement('div');
-    el.className = 'cal-day' + (d === today ? ' is-today' : (dates.has(dateStr) ? ' has-event' : ''));
+    var cls = 'cal-day';
+    if (d === today) cls += ' is-today';
+    else if (dates.has(dateStr)) cls += ' has-event';
+    if (dateStr === topCalSelectedDate) cls += ' is-selected';
+    el.className = cls;
     el.textContent = d;
+    (function(ds) {
+      el.addEventListener('click', function() { onTopCalDayClick(ds); });
+    })(dateStr);
     grid.appendChild(el);
   }
 }
 
-function renderMyLogPreview() {
+function onTopCalDayClick(dateStr) {
+  topCalSelectedDate = topCalSelectedDate === dateStr ? null : dateStr;
+  if (topCalTab === 'event') {
+    renderTopCalendar(topCalEventDates);
+    renderCalPreviewForDate(topCalSelectedDate);
+  } else {
+    var logDates = new Set(getLogs().map(function(l) { return l.date; }));
+    renderTopCalendar(logDates);
+    renderMyLogPreviewForDate(topCalSelectedDate);
+  }
+}
+
+function renderCalPreviewForDate(dateStr) {
+  var el = document.getElementById('index-cal-preview');
+  if (!el) return;
+  var now = new Date();
+  var today = now.toISOString().slice(0, 10);
+  var list;
+  if (dateStr) {
+    list = allTopCalEvents.filter(function(ev) { return ev.event_date === dateStr; });
+  } else {
+    list = allTopCalEvents.filter(function(ev) { return ev.event_date >= today; }).slice(0, 3);
+  }
+  renderUpcomingEvents(el, list, dateStr);
+}
+
+function renderUpcomingEvents(el, events, dateStr) {
+  var days = ['日','月','火','水','木','金','土'];
+  if (!events.length) {
+    var msg = dateStr ? 'この日のイベントはありません。' : '今月のイベントはまだありません。';
+    el.innerHTML = '<div style="background:var(--white);border-radius:14px;padding:20px;border:1px solid var(--border);text-align:center;color:var(--text3);font-size:13px;line-height:2.0;">' + msg + '<br><a href="/gokuyou/pages/calendar.html" style="color:var(--primary);font-weight:700;">カレンダーを見る →</a></div>';
+    return;
+  }
+  var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
+  events.forEach(function(ev) {
+    var d = ev.event_date ? new Date(ev.event_date + 'T00:00:00') : null;
+    var dateLabel = d ? ((d.getMonth()+1) + '/' + d.getDate() + '(' + days[d.getDay()] + ')') : '';
+    html += '<div style="background:var(--white);border-radius:12px;padding:12px 14px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;">' +
+      '<span style="font-size:11px;font-weight:700;color:var(--primary);min-width:50px;">' + escHtml(dateLabel) + '</span>' +
+      '<span style="font-size:13px;font-weight:600;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escHtml(ev.title || '') + '</span>' +
+      '</div>';
+  });
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function renderMyLogPreviewForDate(dateStr) {
   var el = document.getElementById('index-my-preview');
-  var logs = getLogs().slice().reverse().slice(0, 3);
+  var logs = getLogs().slice().reverse();
+  if (dateStr) {
+    logs = logs.filter(function(l) { return l.date === dateStr; });
+  } else {
+    logs = logs.slice(0, 3);
+  }
   if (!logs.length) {
-    el.innerHTML = '<p style="text-align:center;padding:16px 0;color:var(--text3);font-size:13px;">まだ記録がありません。</p>';
+    var msg = dateStr ? 'この日の記録はありません。' : 'まだ記録がありません。';
+    el.innerHTML = '<p style="text-align:center;padding:16px 0;color:var(--text3);font-size:13px;">' + msg + '</p>';
     return;
   }
   var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
@@ -1204,7 +1270,6 @@ function loadCalPreview() {
   var el = document.getElementById('index-cal-preview');
   if (!el) return;
 
-  // まず localStorage ベースでカレンダーを初期表示
   renderTopCalendar(topCalEventDates);
 
   if (!window.supabaseClient) {
@@ -1212,7 +1277,6 @@ function loadCalPreview() {
     return;
   }
 
-  var days = ['日','月','火','水','木','金','土'];
   var now = new Date();
   var monthStart = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().slice(0, 10);
   var monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().slice(0, 10);
@@ -1224,29 +1288,10 @@ function loadCalPreview() {
     .lte('event_date', monthEnd)
     .order('event_date', { ascending: true })
     .then(function(result) {
-      var events = (result && result.data) ? result.data : [];
-      // カレンダードット用に今月のイベント日付セットを更新
-      topCalEventDates = new Set(events.map(function(ev) { return ev.event_date; }));
+      allTopCalEvents = (result && result.data) ? result.data : [];
+      topCalEventDates = new Set(allTopCalEvents.map(function(ev) { return ev.event_date; }));
       renderTopCalendar(topCalEventDates);
-
-      // 直近3件のイベント一覧表示（今日以降）
-      var today = now.toISOString().slice(0, 10);
-      var upcoming = events.filter(function(ev) { return ev.event_date >= today; }).slice(0, 3);
-      if (!upcoming.length) {
-        el.innerHTML = '<div style="background:var(--white);border-radius:14px;padding:20px;border:1px solid var(--border);text-align:center;color:var(--text3);font-size:13px;line-height:2.0;">今月の予定はまだありません。<br><a href="/gokuyou/pages/calendar.html" style="color:var(--primary);font-weight:700;">カレンダーを見る →</a></div>';
-        return;
-      }
-      var html = '<div style="display:flex;flex-direction:column;gap:8px;">';
-      upcoming.forEach(function(ev) {
-        var d = ev.event_date ? new Date(ev.event_date + 'T00:00:00') : null;
-        var dateLabel = d ? ((d.getMonth()+1) + '/' + d.getDate() + '(' + days[d.getDay()] + ')') : '';
-        html += '<div style="background:var(--white);border-radius:12px;padding:12px 14px;border:1px solid var(--border);display:flex;align-items:center;gap:12px;">' +
-          '<span style="font-size:11px;font-weight:700;color:var(--primary);min-width:50px;">' + escHtml(dateLabel) + '</span>' +
-          '<span style="font-size:13px;font-weight:600;color:var(--text);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + escHtml(ev.title || '') + '</span>' +
-          '</div>';
-      });
-      html += '</div>';
-      el.innerHTML = html;
+      renderCalPreviewForDate(topCalSelectedDate);
     })
     .catch(function() {
       el.innerHTML = '<div style="background:var(--white);border-radius:14px;padding:18px;border:1px solid var(--border);text-align:center;color:var(--text3);font-size:13px;"><a href="/gokuyou/pages/calendar.html" style="color:var(--primary);font-weight:700;">カレンダーを見る →</a></div>';
