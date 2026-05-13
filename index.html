@@ -160,6 +160,17 @@
     text-decoration: none;
     letter-spacing: 0.05em;
   }
+  .hero-auth-link {
+    display: inline-block;
+    font-size: 12px;
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    margin-top: 14px;
+    letter-spacing: 0.05em;
+    position: relative;
+    z-index: 1;
+  }
+  .hero-auth-link:hover { color: #fff; }
 
   /* ========== STATS ========== */
   .stats {
@@ -857,6 +868,7 @@
     <a href="#today-step" class="btn-primary">✏️ 今日の一歩を記録する</a>
     <a class='btn-outline' href='./gokuyou_kingen'>📖 敗北者の金言を読む</a>
   </div>
+  <a id="hero-auth-link" href="/gokuyou/pages/login.html" class="hero-auth-link">👤 ログイン / マイページ</a>
 </section>
 
 <!-- STATS -->

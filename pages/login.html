@@ -186,15 +186,23 @@
 
   .auth-nav {
     display: flex;
-    gap: 16px;
+    gap: 0;
     margin-bottom: 28px;
-    flex-wrap: wrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    white-space: nowrap;
   }
+
+  .auth-nav::-webkit-scrollbar { display: none; }
 
   .auth-nav a {
     font-size: 12px;
     color: var(--text3);
     text-decoration: none;
+    flex: 1;
+    text-align: center;
+    padding: 8px 4px;
+    white-space: nowrap;
   }
 
   .auth-nav a:hover { color: var(--primary); }
@@ -207,7 +215,7 @@
 <nav class="auth-nav">
   <a href="/gokuyou/">🏠 ホーム</a>
   <a href="/gokuyou/gokuyou_kingen">📜 敗北者の金言</a>
-  <a href="/gokuyou/log">📖 私の軌跡</a>
+  <a href="/gokuyou/log">📖 軌跡</a>
   <a href="/gokuyou/pages/calendar.html">📅 カレンダー</a>
 </nav>
 

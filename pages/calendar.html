@@ -547,12 +547,12 @@
   <!-- Filter -->
   <div class="cal-filter">
     <button class="cal-filter-btn active" data-genre="all">すべて</button>
-    <button class="cal-filter-btn" data-genre="Entertainment">Entertainment</button>
-    <button class="cal-filter-btn" data-genre="Creative">Creative</button>
-    <button class="cal-filter-btn" data-genre="Sports">Sports</button>
-    <button class="cal-filter-btn" data-genre="Study">Study</button>
-    <button class="cal-filter-btn" data-genre="Business">Business</button>
-    <button class="cal-filter-btn" data-genre="Others">Others</button>
+    <button class="cal-filter-btn" data-genre="Entertainment">Entertainment｜芸能・お笑い</button>
+    <button class="cal-filter-btn" data-genre="Creative">Creative｜音楽・アート</button>
+    <button class="cal-filter-btn" data-genre="Sports">Sports｜スポーツ</button>
+    <button class="cal-filter-btn" data-genre="Study">Study｜勉強・資格</button>
+    <button class="cal-filter-btn" data-genre="Business">Business｜起業・ビジネス</button>
+    <button class="cal-filter-btn" data-genre="Others">Others｜その他</button>
     <select class="cal-filter-select" id="status-filter">
       <option value="all">ステータス: すべて</option>
       <option value="挑戦中">挑戦中</option>
@@ -747,10 +747,10 @@ function renderRegisterArea() {
           '<select class="cal-select" id="form-genre">' +
             '<option value="">選択してください</option>' +
             '<option value="Entertainment">Entertainment｜芸能・お笑い</option>' +
-            '<option value="Creative">Creative｜音楽・アート・動画</option>' +
-            '<option value="Sports">Sports｜アスリート</option>' +
-            '<option value="Study">Study｜勉強・学習</option>' +
-            '<option value="Business">Business｜起業・経営</option>' +
+            '<option value="Creative">Creative｜音楽・アート</option>' +
+            '<option value="Sports">Sports｜スポーツ</option>' +
+            '<option value="Study">Study｜勉強・資格</option>' +
+            '<option value="Business">Business｜起業・ビジネス</option>' +
             '<option value="Others">Others｜その他</option>' +
           '</select>' +
         '</div>' +
@@ -846,12 +846,21 @@ function loadEvents() {
 
   window.supabaseClient
     .from('events')
-    .select('*, profiles(nickname, dream_genre)')
+    .select('id, title, description, event_date, genre, status, user_id')
     .order('event_date', { ascending: true })
     .then(function (result) {
       if (result.error) {
         console.error(result.error);
-        listEl.innerHTML = '<p class="cal-empty">データの読み込みに失敗しました。</p>';
+        var msg = result.error.message || result.error.code || '';
+        var isNoTable = msg.indexOf('42P01') !== -1 || msg.indexOf('does not exist') !== -1 || msg.indexOf('relation') !== -1;
+        if (isNoTable) {
+          listEl.innerHTML =
+            '<div class="cal-empty">eventsテーブルが未作成です。<br>' +
+            'Supabase SQL Editorで以下のSQLを実行してください。<br><br>' +
+            '<a href="/gokuyou/pages/calendar.html#sql-needed" style="color:var(--primary);font-weight:700;">詳細はコンソールを確認</a></div>';
+        } else {
+          listEl.innerHTML = '<p class="cal-empty">データの読み込みに失敗しました。<br>しばらくしてから再度お試しください。</p>';
+        }
         return;
       }
       allEvents = result.data || [];
@@ -859,7 +868,7 @@ function loadEvents() {
     })
     .catch(function (e) {
       console.error(e);
-      listEl.innerHTML = '<p class="cal-empty">データの読み込みに失敗しました。</p>';
+      listEl.innerHTML = '<p class="cal-empty">データの読み込みに失敗しました。<br>しばらくしてから再度お試しください。</p>';
     });
 }
 
@@ -904,7 +913,7 @@ function renderEvent(ev) {
   var genreClass = 'cal-badge-' + genreKey;
   var statusClass = 'cal-badge-status-' + (ev.status || '');
   var dateLabel = ev.event_date ? formatDate(ev.event_date) : '';
-  var nickname = ev.profiles && ev.profiles.nickname ? ev.profiles.nickname : '匿名';
+  var nickname = '匿名';
 
   return (
     '<div class="cal-event">' +

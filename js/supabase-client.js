@@ -3,7 +3,14 @@
     var URL = window.GOKUYOU_CONFIG.SUPABASE_URL;
     var KEY = window.GOKUYOU_CONFIG.SUPABASE_KEY;
 
-    window.supabaseClient = supabase.createClient(URL, KEY);
+    window.supabaseClient = supabase.createClient(URL, KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+        flowType: 'pkce'
+      }
+    });
 
     window.gAuth = {
       signIn: function (email) {
@@ -28,16 +35,42 @@
       }
     };
 
+    // セッション変化を監視してトークン自動更新
+    window.supabaseClient.auth.onAuthStateChange(function (event, session) {
+      if (event === 'SIGNED_OUT') {
+        var currentPath = window.location.pathname;
+        var protectedPaths = ['/gokuyou/pages/profile.html'];
+        if (protectedPaths.indexOf(currentPath) !== -1) {
+          window.location.href = '/gokuyou/pages/login.html';
+        }
+      }
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
       try {
-        var navLink = document.getElementById('nav-auth-link');
-        if (!navLink) return;
         window.supabaseClient.auth.getSession().then(function (result) {
           var session = result && result.data ? result.data.session : null;
-          if (session) {
-            navLink.innerHTML = '<a href="/gokuyou/pages/profile.html">マイページ</a>';
-          } else {
-            navLink.innerHTML = '<a href="/gokuyou/pages/login.html">ログイン</a>';
+
+          // サイドバーのナビリンク
+          var navLink = document.getElementById('nav-auth-link');
+          if (navLink) {
+            if (session) {
+              navLink.innerHTML = '<a href="/gokuyou/pages/profile.html" style="color:inherit;text-decoration:none;">マイページ</a>';
+            } else {
+              navLink.innerHTML = '<a href="/gokuyou/pages/login.html" style="color:inherit;text-decoration:none;">ログイン</a>';
+            }
+          }
+
+          // ヒーローセクションの認証リンク（index.html）
+          var heroLink = document.getElementById('hero-auth-link');
+          if (heroLink) {
+            if (session) {
+              heroLink.href = '/gokuyou/pages/profile.html';
+              heroLink.textContent = '👤 マイページ';
+            } else {
+              heroLink.href = '/gokuyou/pages/login.html';
+              heroLink.textContent = '👤 ログイン / マイページ';
+            }
           }
         }).catch(function (e) {
           console.error(e);
