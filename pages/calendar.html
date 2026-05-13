@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>御供養 | カレンダー</title>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8990S70XB8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8990S70XB8');
+</script>
+
+<meta name="description" content="挑戦者たちのイベントカレンダー。夢に向かう人の予定を共有しよう。">
+<meta property="og:title" content="御供養 | カレンダー">
+<meta property="og:description" content="挑戦者たちのイベントカレンダー。夢に向かう人の予定を共有しよう。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://gokuyou-official.github.io/gokuyou/pages/calendar.html">
+<meta property="og:site_name" content="夢の軌跡を、ここに。">
+<meta property="og:locale" content="ja_JP">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/gokuyou/js/config.js"></script>
+<script src="/gokuyou/js/supabase-client.js"></script>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #FF6B35;
+    --primary-light: #FF8C5A;
+    --primary-bg: #FFF4EF;
+    --accent: #2D6BE4;
+    --green: #27AE60;
+    --green-bg: #EDFBF4;
+    --white: #FFFFFF;
+    --bg: #F7F8FA;
+    --card: #FFFFFF;
+    --charcoal: #3d3d3d;
+    --text: #3d3d3d;
+    --text2: #666677;
+    --text3: #9999AA;
+    --border: rgba(61,61,61,0.12);
+    --error: #D14343;
+    --error-bg: #FDECEC;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    max-width: 430px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 24px 16px 80px;
+  }
+
+  .cal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text3);
+    text-decoration: none;
+    margin-bottom: 12px;
+  }
+
+  .cal-back:hover { color: var(--primary); }
+
+  .cal-top-nav {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .cal-top-nav a {
+    font-size: 12px;
+    color: var(--text3);
+    text-decoration: none;
+  }
+
+  .cal-top-nav a:hover { color: var(--primary); }
+
+  .cal-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .cal-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--charcoal);
+    line-height: 1.3;
+    margin-bottom: 4px;
+    letter-spacing: 0.02em;
+  }
+
+  .cal-desc {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  /* Filter */
+  .cal-filter {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+
+  .cal-filter-btn {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    color: var(--text2);
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.4;
+  }
+
+  .cal-filter-btn.active {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-bg);
+  }
+
+  .cal-filter-select {
+    font-size: 12px;
+    padding: 6px 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--text2);
+    font-family: inherit;
+    cursor: pointer;
+  }
+
+  .cal-filter-select:focus {
+    outline: none;
+    border-color: var(--primary);
+  }
+
+  /* Register button */
+  .cal-register-btn {
+    width: 100%;
+    padding: 13px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    letter-spacing: 0.03em;
+    margin-bottom: 20px;
+  }
+
+  .cal-register-btn:hover { background: var(--primary-light); }
+
+  /* Register form */
+  .cal-form-card {
+    background: var(--card);
+    border-radius: 16px;
+    padding: 22px 18px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    margin-bottom: 20px;
+  }
+
+  .cal-form-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--charcoal);
+    margin-bottom: 16px;
+  }
+
+  .cal-field {
+    margin-bottom: 14px;
+  }
+
+  .cal-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text3);
+    letter-spacing: 0.06em;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .cal-input,
+  .cal-select,
+  .cal-textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--bg);
+    font-size: 13px;
+    color: var(--text);
+    font-family: inherit;
+  }
+
+  .cal-input:focus,
+  .cal-select:focus,
+  .cal-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: var(--white);
+  }
+
+  .cal-textarea {
+    resize: vertical;
+    min-height: 70px;
+  }
+
+  .cal-form-btn-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .cal-submit-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .cal-submit-btn:hover:not(:disabled) { background: var(--primary-light); }
+  .cal-submit-btn:disabled { background: var(--text3); cursor: not-allowed; }
+
+  .cal-cancel-btn {
+    padding: 12px 18px;
+    background: var(--bg);
+    color: var(--text2);
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  .cal-form-error {
+    background: var(--error-bg);
+    color: var(--error);
+    padding: 10px 13px;
+    border-radius: 8px;
+    font-size: 12px;
+    margin-top: 10px;
+  }
+
+  /* Auth notice */
+  .cal-auth-notice {
+    background: var(--primary-bg);
+    color: var(--primary);
+    padding: 13px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .cal-auth-notice a {
+    color: var(--primary);
+    font-weight: 700;
+  }
+
+  /* Month group */
+  .cal-month {
+    margin-bottom: 28px;
+  }
+
+  .cal-month-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* Event card */
+  .cal-event {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    margin-bottom: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+
+  .cal-event-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .cal-event-date {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 70px;
+  }
+
+  .cal-event-badges {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .cal-badge {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .cal-badge-entertainment { background: #FFF0E8; color: #E86835; }
+  .cal-badge-creative { background: #F0E8FF; color: #8C35E8; }
+  .cal-badge-sports { background: #E8F4FF; color: #357CE8; }
+  .cal-badge-study { background: #E8FFF0; color: #27AE60; }
+  .cal-badge-business { background: #FFF8E8; color: #C89A00; }
+  .cal-badge-others { background: #F0F0F0; color: #666677; }
+  .cal-badge-default { background: #F0F0F0; color: #666677; }
+
+  .cal-badge-status-挑戦中 { background: var(--primary-bg); color: var(--primary); }
+  .cal-badge-status-諦めた { background: #F0F0F0; color: #666677; }
+  .cal-badge-status-探し中 { background: #E8F4FF; color: #357CE8; }
+
+  .cal-event-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  .cal-event-desc {
+    font-size: 12px;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 6px;
+  }
+
+  .cal-event-author {
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  /* Loading/empty state */
+  .cal-loading,
+  .cal-empty {
+    text-align: center;
+    padding: 40px 0;
+    color: var(--text3);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+
+<a href="/gokuyou/" class="cal-back">← トップへ戻る</a>
+
+<nav class="cal-top-nav">
+  <a href="/gokuyou/">🏠 ホーム</a>
+  <a href="/gokuyou/gokuyou_kingen">📜 敗北者の金言</a>
+  <a href="/gokuyou/log">📖 私の軌跡</a>
+  <a id="nav-auth-link" href="/gokuyou/pages/login.html">ログイン</a>
+</nav>
+
+<p class="cal-eyebrow">CALENDAR</p>
+<h1 class="cal-title">カレンダー</h1>
+<p class="cal-desc">挑戦者たちのイベント一覧。<br>あなたの予定もシェアしよう。</p>
+
+<!-- Filter -->
+<div class="cal-filter">
+  <button class="cal-filter-btn active" data-genre="all">すべて</button>
+  <button class="cal-filter-btn" data-genre="Entertainment">芸能</button>
+  <button class="cal-filter-btn" data-genre="Creative">創作</button>
+  <button class="cal-filter-btn" data-genre="Sports">スポーツ</button>
+  <button class="cal-filter-btn" data-genre="Study">勉強</button>
+  <button class="cal-filter-btn" data-genre="Business">起業</button>
+  <select class="cal-filter-select" id="status-filter">
+    <option value="all">ステータス: すべて</option>
+    <option value="挑戦中">挑戦中</option>
+    <option value="諦めた">諦めた</option>
+    <option value="探し中">探し中</option>
+  </select>
+</div>
+
+<!-- Register toggle -->
+<div id="register-area"></div>
+
+<!-- Event list -->
+<div id="cal-list"></div>
+
+<script>
+var currentSession = null;
+var allEvents = [];
+var activeGenre = 'all';
+var activeStatus = 'all';
+
+document.addEventListener('DOMContentLoaded', function () {
+  if (!window.supabaseClient) {
+    document.getElementById('cal-list').innerHTML = '<p class="cal-empty">初期化に失敗しました。ページをリロードしてください。</p>';
+    return;
+  }
+
+  window.supabaseClient.auth.getSession().then(function (result) {
+    currentSession = result && result.data ? result.data.session : null;
+    renderRegisterArea();
+    loadEvents();
+  }).catch(function (e) {
+    console.error(e);
+    renderRegisterArea();
+    loadEvents();
+  });
+
+  // Genre filter buttons
+  document.querySelectorAll('.cal-filter-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      document.querySelectorAll('.cal-filter-btn').forEach(function (b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      activeGenre = btn.getAttribute('data-genre');
+      renderList();
+    });
+  });
+
+  // Status filter select
+  document.getElementById('status-filter').addEventListener('change', function () {
+    activeStatus = this.value;
+    renderList();
+  });
+});
+
+function renderRegisterArea() {
+  var area = document.getElementById('register-area');
+  if (!currentSession) {
+    area.innerHTML =
+      '<div class="cal-auth-notice">' +
+        'イベントを登録するには<a href="/gokuyou/pages/login.html">ログイン</a>が必要です。' +
+      '</div>';
+    return;
+  }
+
+  area.innerHTML =
+    '<button class="cal-register-btn" id="toggle-form-btn">＋ イベントを登録する</button>' +
+    '<div id="cal-form-wrap" style="display:none;">' +
+      '<div class="cal-form-card">' +
+        '<p class="cal-form-title">イベントを登録</p>' +
+        '<div class="cal-field">' +
+          '<label class="cal-label" for="form-title">タイトル</label>' +
+          '<input class="cal-input" type="text" id="form-title" placeholder="例: ライブ本番" maxlength="100">' +
+        '</div>' +
+        '<div class="cal-field">' +
+          '<label class="cal-label" for="form-desc">詳細（任意）</label>' +
+          '<textarea class="cal-textarea" id="form-desc" placeholder="内容を一言で" maxlength="300"></textarea>' +
+        '</div>' +
+        '<div class="cal-field">' +
+          '<label class="cal-label" for="form-date">日付</label>' +
+          '<input class="cal-input" type="date" id="form-date">' +
+        '</div>' +
+        '<div class="cal-field">' +
+          '<label class="cal-label" for="form-genre">ジャンル</label>' +
+          '<select class="cal-select" id="form-genre">' +
+            '<option value="">選択してください</option>' +
+            '<option value="Entertainment">Entertainment｜芸能・お笑い</option>' +
+            '<option value="Creative">Creative｜音楽・アート・動画</option>' +
+            '<option value="Sports">Sports｜アスリート</option>' +
+            '<option value="Study">Study｜勉強・学習</option>' +
+            '<option value="Business">Business｜起業・経営</option>' +
+            '<option value="Others">Others｜その他</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="cal-field">' +
+          '<label class="cal-label" for="form-status">ステータス</label>' +
+          '<select class="cal-select" id="form-status">' +
+            '<option value="">選択してください</option>' +
+            '<option value="挑戦中">挑戦中</option>' +
+            '<option value="諦めた">諦めた</option>' +
+            '<option value="探し中">探し中</option>' +
+          '</select>' +
+        '</div>' +
+        '<div class="cal-form-btn-row">' +
+          '<button class="cal-cancel-btn" id="cancel-form-btn">キャンセル</button>' +
+          '<button class="cal-submit-btn" id="submit-event-btn">登録する</button>' +
+        '</div>' +
+        '<div id="form-error" class="cal-form-error" style="display:none;">登録に失敗しました。もう一度お試しください。</div>' +
+      '</div>' +
+    '</div>';
+
+  document.getElementById('toggle-form-btn').addEventListener('click', function () {
+    var wrap = document.getElementById('cal-form-wrap');
+    wrap.style.display = wrap.style.display === 'none' ? '' : 'none';
+  });
+
+  document.getElementById('cancel-form-btn').addEventListener('click', function () {
+    document.getElementById('cal-form-wrap').style.display = 'none';
+  });
+
+  document.getElementById('submit-event-btn').addEventListener('click', submitEvent);
+}
+
+function submitEvent() {
+  if (!currentSession) return;
+
+  var title = document.getElementById('form-title').value.trim();
+  var desc = document.getElementById('form-desc').value.trim();
+  var date = document.getElementById('form-date').value;
+  var genre = document.getElementById('form-genre').value;
+  var status = document.getElementById('form-status').value;
+  var errorEl = document.getElementById('form-error');
+  var submitBtn = document.getElementById('submit-event-btn');
+
+  if (!title || !date || !genre || !status) {
+    errorEl.textContent = 'タイトル・日付・ジャンル・ステータスは必須です。';
+    errorEl.style.display = '';
+    return;
+  }
+
+  errorEl.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = '登録中…';
+
+  window.supabaseClient
+    .from('events')
+    .insert({
+      user_id: currentSession.user.id,
+      title: title,
+      description: desc || null,
+      event_date: date,
+      genre: genre,
+      status: status
+    })
+    .then(function (result) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = '登録する';
+      if (result.error) {
+        console.error(result.error);
+        errorEl.textContent = '登録に失敗しました。もう一度お試しください。';
+        errorEl.style.display = '';
+        return;
+      }
+      document.getElementById('cal-form-wrap').style.display = 'none';
+      document.getElementById('form-title').value = '';
+      document.getElementById('form-desc').value = '';
+      document.getElementById('form-date').value = '';
+      document.getElementById('form-genre').value = '';
+      document.getElementById('form-status').value = '';
+      loadEvents();
+    })
+    .catch(function (e) {
+      console.error(e);
+      submitBtn.disabled = false;
+      submitBtn.textContent = '登録する';
+      errorEl.textContent = '登録に失敗しました。もう一度お試しください。';
+      errorEl.style.display = '';
+    });
+}
+
+function loadEvents() {
+  var listEl = document.getElementById('cal-list');
+  listEl.innerHTML = '<p class="cal-loading">読み込み中...</p>';
+
+  window.supabaseClient
+    .from('events')
+    .select('*, profiles(nickname, dream_genre)')
+    .order('event_date', { ascending: true })
+    .then(function (result) {
+      if (result.error) {
+        console.error(result.error);
+        listEl.innerHTML = '<p class="cal-empty">データの読み込みに失敗しました。</p>';
+        return;
+      }
+      allEvents = result.data || [];
+      renderList();
+    })
+    .catch(function (e) {
+      console.error(e);
+      listEl.innerHTML = '<p class="cal-empty">データの読み込みに失敗しました。</p>';
+    });
+}
+
+function renderList() {
+  var listEl = document.getElementById('cal-list');
+
+  var filtered = allEvents.filter(function (ev) {
+    if (activeGenre !== 'all' && ev.genre !== activeGenre) return false;
+    if (activeStatus !== 'all' && ev.status !== activeStatus) return false;
+    return true;
+  });
+
+  if (!filtered.length) {
+    listEl.innerHTML = '<p class="cal-empty">イベントはまだありません。<br>最初の一件を登録してみましょう。</p>';
+    return;
+  }
+
+  // Group by month
+  var groups = {};
+  var order = [];
+  filtered.forEach(function (ev) {
+    var d = ev.event_date ? ev.event_date.slice(0, 7) : '----';
+    if (!groups[d]) { groups[d] = []; order.push(d); }
+    groups[d].push(ev);
+  });
+
+  var html = '';
+  order.forEach(function (month) {
+    var label = formatMonth(month);
+    html += '<div class="cal-month"><p class="cal-month-label">' + escHtml(label) + '</p>';
+    groups[month].forEach(function (ev) {
+      html += renderEvent(ev);
+    });
+    html += '</div>';
+  });
+
+  listEl.innerHTML = html;
+}
+
+function renderEvent(ev) {
+  var genreKey = ev.genre ? ev.genre.toLowerCase() : 'default';
+  var genreClass = 'cal-badge-' + genreKey;
+  var statusClass = 'cal-badge-status-' + (ev.status || '');
+  var dateLabel = ev.event_date ? formatDate(ev.event_date) : '';
+  var nickname = ev.profiles && ev.profiles.nickname ? ev.profiles.nickname : '匿名';
+
+  return (
+    '<div class="cal-event">' +
+      '<div class="cal-event-header">' +
+        '<span class="cal-event-date">' + escHtml(dateLabel) + '</span>' +
+        '<div class="cal-event-badges">' +
+          (ev.genre ? '<span class="cal-badge ' + escHtml(genreClass) + '">' + escHtml(ev.genre) + '</span>' : '') +
+          (ev.status ? '<span class="cal-badge ' + escHtml(statusClass) + '">' + escHtml(ev.status) + '</span>' : '') +
+        '</div>' +
+      '</div>' +
+      '<p class="cal-event-title">' + escHtml(ev.title || '') + '</p>' +
+      (ev.description ? '<p class="cal-event-desc">' + escHtml(ev.description) + '</p>' : '') +
+      '<p class="cal-event-author">by ' + escHtml(nickname) + '</p>' +
+    '</div>'
+  );
+}
+
+function formatMonth(ym) {
+  if (!ym || ym === '----') return '日付未定';
+  var parts = ym.split('-');
+  return parts[0] + '年' + parseInt(parts[1], 10) + '月';
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '';
+  var d = new Date(dateStr + 'T00:00:00');
+  var days = ['日', '月', '火', '水', '木', '金', '土'];
+  return (d.getMonth() + 1) + '/' + d.getDate() + '(' + days[d.getDay()] + ')';
+}
+
+function escHtml(s) {
+  return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+</script>
+
+</body>
+</html>

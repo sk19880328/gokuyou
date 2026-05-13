@@ -14,6 +14,10 @@
   gtag('config', 'G-8990S70XB8');
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/gokuyou/js/config.js"></script>
+<script src="/gokuyou/js/supabase-client.js"></script>
+
 <!-- OGP -->
 <meta name="description" content="夢を追い続けた時間は、消えない。挑戦した人の軌跡を記録し、諦めた日も含めて本物の記録を残すサービス。">
 <meta property="og:title" content="夢の軌跡を、ここに。">
@@ -836,6 +840,7 @@
     <a href="./" class="sidebar-link active">🏠 ホーム</a>
     <a href="./gokuyou_kingen" class="sidebar-link">📜 敗北者の金言</a>
     <a href="./log" class="sidebar-link">📖 私の軌跡</a>
+    <a href="/gokuyou/pages/calendar.html" class="sidebar-link">📅 カレンダー</a>
     <a id="nav-auth-link" href="/gokuyou/pages/login.html" class="sidebar-link">ログイン</a>
   </nav>
 </aside>
@@ -889,6 +894,7 @@
     <textarea class="step-textarea" id="step-input" placeholder="今日、夢に向けて何をした？（一言でOK）"></textarea>
     <button class="step-save-btn" onclick="saveStep()">記録する</button>
     <div class="step-saved-msg" id="step-saved">今日の一歩を受け取りました</div>
+    <div id="step-login-msg" style="display:none; margin-top:8px; font-size:13px; color:#666677; line-height:1.6;">記録するには<a href="/gokuyou/pages/login.html" style="color:#FF6B35; font-weight:700;">ログイン</a>が必要です</div>
     <a href="./log" class="step-log-link">これまでの記録を見る →</a>
   </div>
 </section>
@@ -1044,6 +1050,10 @@
     <span class="nav-icon">📜</span>
     <span class="nav-label">金言</span>
   </a>
+  <a href="/gokuyou/pages/calendar.html" class="nav-item">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">カレンダー</span>
+  </a>
 </nav>
 
 </div><!-- /main-content -->
@@ -1129,6 +1139,28 @@ function getStreak() {
 function saveStep() {
   var text = document.getElementById('step-input').value.trim();
   if (!text) return;
+  var loginMsg = document.getElementById('step-login-msg');
+
+  if (window.supabaseClient) {
+    window.supabaseClient.auth.getSession().then(function (result) {
+      var session = result && result.data ? result.data.session : null;
+      if (!session) {
+        loginMsg.style.display = '';
+        setTimeout(function () { loginMsg.style.display = 'none'; }, 4000);
+        return;
+      }
+      loginMsg.style.display = 'none';
+      doSaveStep(text);
+    }).catch(function () {
+      loginMsg.style.display = '';
+      setTimeout(function () { loginMsg.style.display = 'none'; }, 4000);
+    });
+  } else {
+    doSaveStep(text);
+  }
+}
+
+function doSaveStep(text) {
   var logs = getLogs();
   var today = new Date().toISOString().slice(0, 10);
   logs.push({ date: today, text: text });

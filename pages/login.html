@@ -183,11 +183,33 @@
     margin-top: 20px;
     line-height: 1.7;
   }
+
+  .auth-nav {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .auth-nav a {
+    font-size: 12px;
+    color: var(--text3);
+    text-decoration: none;
+  }
+
+  .auth-nav a:hover { color: var(--primary); }
 </style>
 </head>
 <body>
 
 <a href="/gokuyou/" class="auth-back">← トップへ戻る</a>
+
+<nav class="auth-nav">
+  <a href="/gokuyou/">🏠 ホーム</a>
+  <a href="/gokuyou/gokuyou_kingen">📜 敗北者の金言</a>
+  <a href="/gokuyou/log">📖 私の軌跡</a>
+  <a href="/gokuyou/pages/calendar.html">📅 カレンダー</a>
+</nav>
 
 <p class="auth-eyebrow">SIGN IN</p>
 <h1 class="auth-title">はじめる</h1>

@@ -68,6 +68,21 @@
 
   .profile-back:hover { color: var(--primary); }
 
+  .profile-nav {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .profile-nav a {
+    font-size: 12px;
+    color: var(--text3);
+    text-decoration: none;
+  }
+
+  .profile-nav a:hover { color: var(--primary); }
+
   .profile-eyebrow {
     font-size: 11px;
     letter-spacing: 0.2em;
@@ -218,18 +233,6 @@
     gap: 10px;
     margin-top: 4px;
   }
-  .btn-row .btn-primary,
-  .btn-row .btn-secondary { margin-top: 0; }
-
-  .save-error {
-    background: var(--error-bg);
-    color: var(--error);
-    padding: 12px 14px;
-    border-radius: 10px;
-    font-size: 13px;
-    line-height: 1.6;
-    margin-top: 6px;
-  }
 
   .save-success {
     background: var(--green-bg);
@@ -237,8 +240,18 @@
     padding: 10px 14px;
     border-radius: 10px;
     font-size: 13px;
+    font-weight: 600;
     text-align: center;
     margin-bottom: 12px;
+  }
+
+  .save-error {
+    background: var(--error-bg);
+    color: var(--error);
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 12px;
+    margin-top: 8px;
   }
 </style>
 </head>
@@ -246,9 +259,19 @@
 
 <a href="/gokuyou/" class="profile-back">← トップへ戻る</a>
 
+<nav class="profile-nav">
+  <a href="/gokuyou/">🏠 ホーム</a>
+  <a href="/gokuyou/gokuyou_kingen">📜 敗北者の金言</a>
+  <a href="/gokuyou/log">📖 私の軌跡</a>
+  <a href="/gokuyou/pages/calendar.html">📅 カレンダー</a>
+</nav>
+
 <p class="profile-eyebrow">MY PAGE</p>
 <h1 class="profile-title">マイページ</h1>
 <p class="profile-email" id="user-email"></p>
+
+<!-- Save success (global, shown above cards regardless of mode) -->
+<div id="save-success" class="save-success" style="display:none;">保存しました</div>
 
 <div id="profile-loading" class="profile-loading">読み込み中...</div>
 
@@ -279,7 +302,6 @@
 
 <!-- EDIT MODE -->
 <section id="edit-mode" class="profile-card" style="display:none;">
-  <div id="save-success" class="save-success" style="display:none;">保存しました</div>
   <form id="profile-form" class="profile-form">
     <div class="form-group">
       <label class="form-label" for="input-nickname">ニックネーム</label>
@@ -289,6 +311,7 @@
     <div class="form-group">
       <label class="form-label" for="input-genre">夢ジャンル</label>
       <select class="form-select" id="input-genre" name="dream_genre">
+        <option value="">選択してください</option>
         <option value="Entertainment">Entertainment</option>
         <option value="Creative">Creative</option>
         <option value="Sports">Sports</option>
@@ -362,7 +385,6 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function showView() {
-    saveSuccess.style.display = 'none';
     saveError.style.display = 'none';
     editMode.style.display = 'none';
     viewMode.style.display = 'block';
@@ -371,7 +393,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function showEdit() {
     saveError.style.display = 'none';
-    saveSuccess.style.display = 'none';
     viewMode.style.display = 'none';
     viewActions.style.display = 'none';
     editMode.style.display = 'block';
@@ -497,6 +518,7 @@ document.addEventListener('DOMContentLoaded', function () {
         renderView(payload);
         showView();
         saveSuccess.style.display = 'block';
+        setTimeout(function () { saveSuccess.style.display = 'none'; }, 2000);
       })
       .catch(function (e) {
         console.error(e);

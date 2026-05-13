@@ -14,6 +14,10 @@
   gtag('config', 'G-8990S70XB8');
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/gokuyou/js/config.js"></script>
+<script src="/gokuyou/js/supabase-client.js"></script>
+
 <!-- OGP -->
 <meta name="description" content="夢を諦めた人だけが語れる、本物の言葉がある。成功者じゃない、だからこそリアルな言葉。敗北者の金言。">
 <meta property="og:title" content="敗北者の金言 | 夢の軌跡を、ここに。">
@@ -650,6 +654,7 @@
   }
   .share-tw { background: #000; color: #fff; }
   .share-line { background: #06C755; color: #fff; }
+  .share-mypage { background: var(--primary-bg); color: var(--primary); text-decoration: none; }
 
   /* ========== PC LAYOUT ========== */
   .pc-sidebar { display: none; }
@@ -762,6 +767,7 @@
     <a href="./" class="sidebar-link">🏠 ホーム</a>
     <a href="./gokuyou_kingen" class="sidebar-link active">📜 敗北者の金言</a>
     <a href="/gokuyou/log" class="sidebar-link sidebar-link-cta">🌟 記録を始める</a>
+    <a href="/gokuyou/pages/calendar.html" class="sidebar-link">📅 カレンダー</a>
     <a id="nav-auth-link" href="/gokuyou/pages/login.html" class="sidebar-link">ログイン</a>
   </nav>
 </aside>
@@ -1184,6 +1190,10 @@
     <span class="nav-icon">📜</span>
     <span class="nav-label">金言</span>
   </a>
+  <a href="/gokuyou/pages/calendar.html" class="nav-item">
+    <span class="nav-icon">📅</span>
+    <span class="nav-label">カレンダー</span>
+  </a>
 </nav>
 
 </div><!-- /main-content -->
@@ -1232,6 +1242,7 @@ function shareLine(quote) {
       '<div class="share-btns">' +
         '<button class="share-btn share-tw" onclick="shareTwitter(\'' + shareText + '\')">𝕏 シェア</button>' +
         '<button class="share-btn share-line" onclick="shareLine(\'' + shareText + '\')">LINE</button>' +
+        '<a href="/gokuyou/pages/profile.html" class="share-btn share-mypage">マイページへ</a>' +
       '</div>';
     return el;
   }
@@ -1304,6 +1315,18 @@ function shareLine(quote) {
     });
   });
 })();
+
+// Add マイページへ button to all hardcoded kingen cards
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.kingen-card .share-btns').forEach(function (btns) {
+    if (btns.querySelector('.share-mypage')) return;
+    var a = document.createElement('a');
+    a.href = '/gokuyou/pages/profile.html';
+    a.className = 'share-btn share-mypage';
+    a.textContent = 'マイページへ';
+    btns.appendChild(a);
+  });
+});
 </script>
 
 </body>
